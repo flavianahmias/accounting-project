@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.databaseProviders = void 0;
+exports.databaseServices = void 0;
 const typeorm_1 = require("typeorm");
-exports.databaseProviders = [
+exports.databaseServices = [
     {
         provide: 'DATA_SOURCE',
         useFactory: async () => {
@@ -12,7 +12,7 @@ exports.databaseProviders = [
                 port: 3306,
                 username: 'root',
                 password: '123',
-                database: 'hubla',
+                database: 'db',
                 entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 synchronize: true,
             });
@@ -20,4 +20,4 @@ exports.databaseProviders = [
         },
     },
 ];
-//# sourceMappingURL=database.providers.js.map
+//# sourceMappingURL=database.services.js.map

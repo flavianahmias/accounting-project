@@ -8,7 +8,7 @@ export class Transaction {
   @Column({ length: 50 })
   product: string;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ type: 'date' })
   date: Date;
 
   @Column()

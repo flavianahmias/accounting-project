@@ -10,7 +10,7 @@ export const databaseServices = [
         port: 3306,
         username: 'root',
         password: '123',
-        database: 'hubla',
+        database: 'db',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
       });

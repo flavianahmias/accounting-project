@@ -25,6 +25,5 @@ export class User {
 
   @ManyToOne(() => User)
   @JoinTable()
-  @Column({ nullable: true })
   creator?: User;
 }
