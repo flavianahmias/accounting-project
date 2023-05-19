@@ -22,6 +22,15 @@ let TransactionService = class TransactionService {
     async findAll() {
         return this.transactionRepository.find();
     }
+    async getTransactionByUser(userId) {
+        return this.transactionRepository.find({
+            where: {
+                seller: {
+                    id: userId,
+                },
+            },
+        });
+    }
 };
 TransactionService = __decorate([
     (0, common_1.Injectable)(),

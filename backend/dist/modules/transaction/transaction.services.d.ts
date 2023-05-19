@@ -4,4 +4,5 @@ export declare class TransactionService {
     private transactionRepository;
     constructor(transactionRepository: Repository<Transaction>);
     findAll(): Promise<Transaction[]>;
+    getTransactionByUser(userId: number): Promise<Transaction[]>;
 }

@@ -17,13 +17,10 @@ export class User {
   @Column()
   role: number;
 
-  @Column()
-  value: number;
-
   @Column('float')
   balance: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: true })
   @JoinTable()
   creator?: User;
 }

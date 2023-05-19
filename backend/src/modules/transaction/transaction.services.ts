@@ -12,4 +12,14 @@ export class TransactionService {
   async findAll(): Promise<Transaction[]> {
     return this.transactionRepository.find();
   }
+
+  async getTransactionByUser(userId: number): Promise<Transaction[]> {
+    return this.transactionRepository.find({
+      where: {
+        seller: {
+          id: userId,
+        },
+      },
+    });
+  }
 }

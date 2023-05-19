@@ -27,15 +27,11 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], User.prototype, "value", void 0);
-__decorate([
     (0, typeorm_1.Column)('float'),
     __metadata("design:type", Number)
 ], User.prototype, "balance", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => User_1),
+    (0, typeorm_1.ManyToOne)(() => User_1, { nullable: true }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", User)
 ], User.prototype, "creator", void 0);
