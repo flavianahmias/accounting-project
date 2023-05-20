@@ -45,11 +45,21 @@ export class TransactionService {
     return this.transactionRepository.create(transaction);
   }
 
-  readTransactionFile(
-    @UploadedFile() file: Express.Multer.File,
-  ): FileTransaction[] {
-    console.log(file);
-    return [];
+  readTransactionFile(file: Express.Multer.File): FileTransaction[] {
+    const data = file.buffer.toString();
+    const lines = data.split('\n');
+
+    const fileTransactions: FileTransaction[] = lines
+      .filter((l) => l.length > 67)
+      .map((line) => ({
+        type: parseInt(line.substring(0, 1)),
+        date: new Date(line.substring(1, 26)),
+        product: line.substring(26, 56).trim(),
+        value: parseFloat(line.substring(56, 66)),
+        seller: line.substring(66, 86).trim(),
+      }));
+
+    return fileTransactions;
   }
 
   async getMissingUsers(usernames: string[]): Promise<string[]> {

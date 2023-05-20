@@ -6,5 +6,5 @@ export declare class TransactionController {
     private readonly userService;
     constructor(transactionService: TransactionService, userService: UserService);
     findAll(): Promise<import("./transaction.entity").Transaction[]>;
-    createFromFile(file: Express.Multer.File, res: any): Promise<void>;
+    createFromFile(file: Express.Multer.File): Promise<void>;
 }

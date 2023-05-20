@@ -25,8 +25,9 @@ let TransactionController = class TransactionController {
     findAll() {
         return this.transactionService.findAll();
     }
-    async createFromFile(file, res) {
-        console.log(file);
+    async createFromFile(file) {
+        const transcriptedTransactions = this.transactionService.readTransactionFile(file);
+        console.log(transcriptedTransactions);
     }
 };
 __decorate([
@@ -39,9 +40,8 @@ __decorate([
     (0, common_1.Post)('upload'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TransactionController.prototype, "createFromFile", null);
 TransactionController = __decorate([

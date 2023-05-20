@@ -24,10 +24,11 @@ export class TransactionController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async createFromFile(@UploadedFile() file: Express.Multer.File, @Res() res) {
-    console.log(file);
-    // const transcriptedTransactions =
-    //   this.transactionService.readTransactionFile(file);
+  async createFromFile(@UploadedFile() file: Express.Multer.File) {
+    const transcriptedTransactions =
+      this.transactionService.readTransactionFile(file);
+
+    console.log(transcriptedTransactions);
 
     // const missingUsernames = await this.transactionService.getMissingUsers(
     //   transcriptedTransactions.map((t) => t.seller),
@@ -35,6 +36,5 @@ export class TransactionController {
 
     // await this.userService.createUsers(missingUsernames);
     // await this.transactionService.createTransactions(transcriptedTransactions);
-    // return res.status(200);
   }
 }

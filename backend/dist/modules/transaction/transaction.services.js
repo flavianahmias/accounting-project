@@ -44,8 +44,18 @@ let TransactionService = class TransactionService {
         return this.transactionRepository.create(transaction);
     }
     readTransactionFile(file) {
-        console.log(file);
-        return [];
+        const data = file.buffer.toString();
+        const lines = data.split('\n');
+        const fileTransactions = lines
+            .filter((l) => l.length > 67)
+            .map((line) => ({
+            type: parseInt(line.substring(0, 1)),
+            date: new Date(line.substring(1, 26)),
+            product: line.substring(26, 56).trim(),
+            value: parseFloat(line.substring(56, 66)),
+            seller: line.substring(66, 86).trim(),
+        }));
+        return fileTransactions;
     }
     async getMissingUsers(usernames) {
         const users = await this.userRepository.find();
@@ -69,12 +79,6 @@ let TransactionService = class TransactionService {
         return transactions.map(async (t) => await this.createTransaction(t));
     }
 };
-__decorate([
-    __param(0, (0, common_1.UploadedFile)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Array)
-], TransactionService.prototype, "readTransactionFile", null);
 TransactionService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('TRANSACTION_REPOSITORY')),
