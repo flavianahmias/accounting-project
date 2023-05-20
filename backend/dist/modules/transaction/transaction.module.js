@@ -14,13 +14,19 @@ const transaction_providers_1 = require("./transaction.providers");
 const transaction_controller_1 = require("./transaction.controller");
 const user_module_1 = require("../user/user.module");
 const user_provider_1 = require("../user/user.provider");
+const user_service_1 = require("../user/user.service");
 let TransactionModule = class TransactionModule {
 };
 TransactionModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule, user_module_1.UserModule],
         controllers: [transaction_controller_1.TransactionController],
-        providers: [...transaction_providers_1.transactionProviders, ...user_provider_1.userProviders, transaction_services_1.TransactionService],
+        providers: [
+            ...transaction_providers_1.transactionProviders,
+            ...user_provider_1.userProviders,
+            transaction_services_1.TransactionService,
+            user_service_1.UserService,
+        ],
     })
 ], TransactionModule);
 exports.TransactionModule = TransactionModule;
