@@ -111,6 +111,7 @@ let TransactionService = class TransactionService {
         const transaction = new transaction_entity_1.Transaction({
             date: transactionFile.date,
             seller: user,
+            type: transactionFile.type,
             product: transactionFile.product,
             value: transactionFile.value,
         });

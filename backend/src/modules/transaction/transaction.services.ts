@@ -133,6 +133,7 @@ export class TransactionService {
     const transaction = new Transaction({
       date: transactionFile.date,
       seller: user,
+      type: transactionFile.type,
       product: transactionFile.product,
       value: transactionFile.value,
     });
