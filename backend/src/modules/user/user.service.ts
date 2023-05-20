@@ -1,7 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { Role, User } from './user.entity';
 
+export interface UserFromTransaction {
+  username: string;
+  role: Role;
+  creatorName?: string;
+}
 @Injectable()
 export class UserService {
   constructor(
@@ -13,9 +18,14 @@ export class UserService {
     return 'User!';
   }
 
-  createUsers(usernames: string[]) {
-    const users = usernames.map(
-      (username) => new User({ name: username, balance: 0 }),
+  createUsers(usersFromTransaction: UserFromTransaction[]) {
+    const users = usersFromTransaction.map(
+      (userFromTransaction) =>
+        new User({
+          name: userFromTransaction.username,
+          balance: 0,
+          role: userFromTransaction.role,
+        }),
     );
 
     return this.userRepository.insert(users);

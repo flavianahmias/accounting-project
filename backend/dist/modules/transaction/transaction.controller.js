@@ -27,8 +27,15 @@ let TransactionController = class TransactionController {
     }
     async createFromFile(file) {
         const transcriptedTransactions = this.transactionService.readTransactionFile(file);
-        const missingUsernames = await this.transactionService.getMissingUsers(transcriptedTransactions.map((t) => t.seller));
-        await this.userService.createUsers(missingUsernames);
+        const usersFromFile = await this.transactionService.getUsersFromFile(transcriptedTransactions);
+        const missingUsers = [];
+        const promises = usersFromFile.map((u) => this.transactionService.isActiveUser(u.username).then((found) => {
+            if (!found)
+                missingUsers.push(u);
+        }));
+        await Promise.all(promises);
+        await this.userService.createUsers(missingUsers);
+        await this.transactionService.createTransactions(transcriptedTransactions);
     }
 };
 __decorate([

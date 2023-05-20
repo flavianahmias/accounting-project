@@ -22,6 +22,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Transaction.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Transaction.prototype, "type", void 0);
+__decorate([
     (0, typeorm_1.Column)({ length: 50 }),
     __metadata("design:type", String)
 ], Transaction.prototype, "product", void 0);

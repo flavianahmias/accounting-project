@@ -10,6 +10,9 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  type: number;
+
   @Column({ length: 50 })
   product: string;
 

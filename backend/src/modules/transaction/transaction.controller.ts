@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.services';
-import { UserService } from '../user/user.service';
+import { UserFromTransaction, UserService } from '../user/user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('transaction')
@@ -28,11 +28,20 @@ export class TransactionController {
     const transcriptedTransactions =
       this.transactionService.readTransactionFile(file);
 
-    const missingUsernames = await this.transactionService.getMissingUsers(
-      transcriptedTransactions.map((t) => t.seller),
+    const usersFromFile = await this.transactionService.getUsersFromFile(
+      transcriptedTransactions,
     );
 
-    await this.userService.createUsers(missingUsernames);
-    // await this.transactionService.createTransactions(transcriptedTransactions);
+    const missingUsers: UserFromTransaction[] = [];
+    const promises = usersFromFile.map((u) =>
+      this.transactionService.isActiveUser(u.username).then((found) => {
+        if (!found) missingUsers.push(u);
+      }),
+    );
+
+    await Promise.all(promises);
+
+    await this.userService.createUsers(missingUsers);
+    await this.transactionService.createTransactions(transcriptedTransactions);
   }
 }

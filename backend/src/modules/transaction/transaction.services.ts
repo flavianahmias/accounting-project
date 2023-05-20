@@ -1,7 +1,8 @@
 import { Injectable, Inject, UploadedFile } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Transaction } from './transaction.entity';
-import { User } from '../user/user.entity';
+import { Role, User } from '../user/user.entity';
+import { UserFromTransaction } from '../user/user.service';
 
 enum SellType {
   ProductorSell = 1,
@@ -62,20 +63,64 @@ export class TransactionService {
     return fileTransactions;
   }
 
-  async getMissingUsers(usernames: string[]): Promise<string[]> {
-    const users = await this.userRepository.find();
-    const missingUsernames: string[] = [];
+  async getUsersFromFile(
+    fileTransactions: FileTransaction[],
+  ): Promise<UserFromTransaction[]> {
+    const usersFromTransaction: UserFromTransaction[] = [];
+    const verifiedUsers: string[] = [];
 
-    usernames.forEach((username) => {
-      if (
-        !users.some((u) => u.name === username) &&
-        !missingUsernames.includes(username)
-      ) {
-        missingUsernames.push(username);
-      }
+    fileTransactions
+      .filter((f) => {
+        if (verifiedUsers.includes(f.seller)) {
+          return false;
+        } else {
+          verifiedUsers.push(f.seller);
+          return true;
+        }
+      })
+      .forEach((fileTransaction) => {
+        switch (fileTransaction.type) {
+          // Creator
+          case 1:
+          case 3:
+            usersFromTransaction.push({
+              role: Role.Productor,
+              username: fileTransaction.seller,
+            });
+            break;
+
+          // Affiliate
+          case 2:
+          case 4:
+            // Find Creator
+            // Based on name of product
+            const creator = fileTransactions.find(
+              (f) =>
+                f.product === fileTransaction.product &&
+                [1, 3].includes(f.type),
+            );
+
+            if (creator) {
+              usersFromTransaction.push({
+                role: Role.Affiliate,
+                username: fileTransaction.seller,
+                creatorName: creator.seller,
+              });
+            }
+
+            break;
+        }
+      });
+
+    return usersFromTransaction;
+  }
+
+  async isActiveUser(username: string) {
+    const foundUser = await this.userRepository.findOne({
+      where: { name: username },
     });
 
-    return missingUsernames;
+    return !!foundUser;
   }
 
   async createTransaction(transactionFile: FileTransaction) {

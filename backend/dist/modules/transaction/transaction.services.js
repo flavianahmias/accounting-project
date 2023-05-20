@@ -16,6 +16,7 @@ exports.TransactionService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const transaction_entity_1 = require("./transaction.entity");
+const user_entity_1 = require("../user/user.entity");
 var SellType;
 (function (SellType) {
     SellType[SellType["ProductorSell"] = 1] = "ProductorSell";
@@ -57,16 +58,49 @@ let TransactionService = class TransactionService {
         }));
         return fileTransactions;
     }
-    async getMissingUsers(usernames) {
-        const users = await this.userRepository.find();
-        const missingUsernames = [];
-        usernames.forEach((username) => {
-            if (!users.some((u) => u.name === username) &&
-                !missingUsernames.includes(username)) {
-                missingUsernames.push(username);
+    async getUsersFromFile(fileTransactions) {
+        const usersFromTransaction = [];
+        const verifiedUsers = [];
+        fileTransactions
+            .filter((f) => {
+            if (verifiedUsers.includes(f.seller)) {
+                return false;
+            }
+            else {
+                verifiedUsers.push(f.seller);
+                return true;
+            }
+        })
+            .forEach((fileTransaction) => {
+            switch (fileTransaction.type) {
+                case 1:
+                case 3:
+                    usersFromTransaction.push({
+                        role: user_entity_1.Role.Productor,
+                        username: fileTransaction.seller,
+                    });
+                    break;
+                case 2:
+                case 4:
+                    const creator = fileTransactions.find((f) => f.product === fileTransaction.product &&
+                        [1, 3].includes(f.type));
+                    if (creator) {
+                        usersFromTransaction.push({
+                            role: user_entity_1.Role.Affiliate,
+                            username: fileTransaction.seller,
+                            creatorName: creator.seller,
+                        });
+                    }
+                    break;
             }
         });
-        return missingUsernames;
+        return usersFromTransaction;
+    }
+    async isActiveUser(username) {
+        const foundUser = await this.userRepository.findOne({
+            where: { name: username },
+        });
+        return !!foundUser;
     }
     async createTransaction(transactionFile) {
         const user = await this.userRepository.findOneOrFail({

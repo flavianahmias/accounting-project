@@ -10,8 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var User_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.User = exports.Role = void 0;
 const typeorm_1 = require("typeorm");
+var Role;
+(function (Role) {
+    Role[Role["Productor"] = 0] = "Productor";
+    Role[Role["Affiliate"] = 1] = "Affiliate";
+})(Role = exports.Role || (exports.Role = {}));
 let User = User_1 = class User {
     constructor(dto) {
         Object.assign(this, dto);

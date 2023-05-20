@@ -6,6 +6,11 @@ import {
   JoinTable,
 } from 'typeorm';
 
+export enum Role {
+  Productor,
+  Affiliate,
+}
+
 @Entity()
 export class User {
   constructor(dto: Partial<User>) {

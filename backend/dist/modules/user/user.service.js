@@ -23,8 +23,12 @@ let UserService = class UserService {
     getUser() {
         return 'User!';
     }
-    createUsers(usernames) {
-        const users = usernames.map((username) => new user_entity_1.User({ name: username, balance: 0 }));
+    createUsers(usersFromTransaction) {
+        const users = usersFromTransaction.map((userFromTransaction) => new user_entity_1.User({
+            name: userFromTransaction.username,
+            balance: 0,
+            role: userFromTransaction.role,
+        }));
         return this.userRepository.insert(users);
     }
 };
