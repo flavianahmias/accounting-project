@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 export enum Role {
-  Productor,
+  Creator,
   Affiliate,
 }
 

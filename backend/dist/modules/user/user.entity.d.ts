@@ -1,5 +1,5 @@
 export declare enum Role {
-    Productor = 0,
+    Creator = 0,
     Affiliate = 1
 }
 export declare class User {

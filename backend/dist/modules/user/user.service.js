@@ -23,12 +23,28 @@ let UserService = class UserService {
     getUser() {
         return 'User!';
     }
-    createUsers(usersFromTransaction) {
-        const users = usersFromTransaction.map((userFromTransaction) => new user_entity_1.User({
-            name: userFromTransaction.username,
+    async createUsers(usersFromTransaction) {
+        const creators = usersFromTransaction.filter((u) => u.role === user_entity_1.Role.Creator);
+        const affiliates = usersFromTransaction.filter((u) => u.role === user_entity_1.Role.Affiliate);
+        const creatorUsers = creators.map((c) => new user_entity_1.User({
             balance: 0,
-            role: userFromTransaction.role,
+            name: c.username,
+            role: c.role,
         }));
+        await this.userRepository.insert(creatorUsers);
+        const promises = affiliates.map(async (affiliate) => {
+            const creator = await this.userRepository.findOne({
+                where: { name: affiliate.creatorName },
+            });
+            console.log('Found ' + (creator === null || creator === void 0 ? void 0 : creator.name) + ' for creator');
+            return new user_entity_1.User({
+                balance: 0,
+                creator,
+                name: affiliate.username,
+                role: affiliate.role,
+            });
+        });
+        const users = await Promise.all(promises);
         return this.userRepository.insert(users);
     }
 };

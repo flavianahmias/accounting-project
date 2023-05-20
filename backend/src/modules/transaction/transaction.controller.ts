@@ -42,6 +42,6 @@ export class TransactionController {
     await Promise.all(promises);
 
     await this.userService.createUsers(missingUsers);
-    await this.transactionService.createTransactions(transcriptedTransactions);
+    // await this.transactionService.createTransactions(transcriptedTransactions);
   }
 }

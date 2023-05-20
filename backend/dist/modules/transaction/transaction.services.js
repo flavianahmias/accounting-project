@@ -76,7 +76,7 @@ let TransactionService = class TransactionService {
                 case 1:
                 case 3:
                     usersFromTransaction.push({
-                        role: user_entity_1.Role.Productor,
+                        role: user_entity_1.Role.Creator,
                         username: fileTransaction.seller,
                     });
                     break;

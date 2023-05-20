@@ -35,7 +35,6 @@ let TransactionController = class TransactionController {
         }));
         await Promise.all(promises);
         await this.userService.createUsers(missingUsers);
-        await this.transactionService.createTransactions(transcriptedTransactions);
     }
 };
 __decorate([

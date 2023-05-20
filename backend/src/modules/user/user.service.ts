@@ -18,16 +18,41 @@ export class UserService {
     return 'User!';
   }
 
-  createUsers(usersFromTransaction: UserFromTransaction[]) {
-    const users = usersFromTransaction.map(
-      (userFromTransaction) =>
+  async createUsers(usersFromTransaction: UserFromTransaction[]) {
+    const creators = usersFromTransaction.filter(
+      (u) => u.role === Role.Creator,
+    );
+
+    const affiliates = usersFromTransaction.filter(
+      (u) => u.role === Role.Affiliate,
+    );
+
+    const creatorUsers = creators.map(
+      (c) =>
         new User({
-          name: userFromTransaction.username,
           balance: 0,
-          role: userFromTransaction.role,
+          name: c.username,
+          role: c.role,
         }),
     );
 
+    await this.userRepository.insert(creatorUsers);
+
+    const promises: Promise<User>[] = affiliates.map(async (affiliate) => {
+      const creator = await this.userRepository.findOne({
+        where: { name: affiliate.creatorName },
+      });
+      console.log('Found ' + creator?.name + ' for creator');
+
+      return new User({
+        balance: 0,
+        creator,
+        name: affiliate.username,
+        role: affiliate.role,
+      });
+    });
+
+    const users = await Promise.all(promises);
     return this.userRepository.insert(users);
   }
 }

@@ -84,7 +84,7 @@ export class TransactionService {
           case 1:
           case 3:
             usersFromTransaction.push({
-              role: Role.Productor,
+              role: Role.Creator,
               username: fileTransaction.seller,
             });
             break;
