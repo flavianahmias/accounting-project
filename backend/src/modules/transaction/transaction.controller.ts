@@ -28,13 +28,11 @@ export class TransactionController {
     const transcriptedTransactions =
       this.transactionService.readTransactionFile(file);
 
-    console.log(transcriptedTransactions);
+    const missingUsernames = await this.transactionService.getMissingUsers(
+      transcriptedTransactions.map((t) => t.seller),
+    );
 
-    // const missingUsernames = await this.transactionService.getMissingUsers(
-    //   transcriptedTransactions.map((t) => t.seller),
-    // );
-
-    // await this.userService.createUsers(missingUsernames);
+    await this.userService.createUsers(missingUsernames);
     // await this.transactionService.createTransactions(transcriptedTransactions);
   }
 }

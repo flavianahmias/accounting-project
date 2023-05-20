@@ -64,9 +64,18 @@ export class TransactionService {
 
   async getMissingUsers(usernames: string[]): Promise<string[]> {
     const users = await this.userRepository.find();
-    return usernames.filter((username) =>
-      users.some((u) => u.name === username),
-    );
+    const missingUsernames: string[] = [];
+
+    usernames.forEach((username) => {
+      if (
+        !users.some((u) => u.name === username) &&
+        !missingUsernames.includes(username)
+      ) {
+        missingUsernames.push(username);
+      }
+    });
+
+    return missingUsernames;
   }
 
   async createTransaction(transactionFile: FileTransaction) {

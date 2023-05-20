@@ -27,7 +27,8 @@ let TransactionController = class TransactionController {
     }
     async createFromFile(file) {
         const transcriptedTransactions = this.transactionService.readTransactionFile(file);
-        console.log(transcriptedTransactions);
+        const missingUsernames = await this.transactionService.getMissingUsers(transcriptedTransactions.map((t) => t.seller));
+        await this.userService.createUsers(missingUsernames);
     }
 };
 __decorate([
