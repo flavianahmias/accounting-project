@@ -8,6 +8,10 @@ import {
 
 @Entity()
 export class User {
+  constructor(dto: Partial<User>) {
+    Object.assign(this, dto);
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
