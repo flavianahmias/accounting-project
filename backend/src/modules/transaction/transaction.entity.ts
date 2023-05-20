@@ -1,6 +1,13 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from '../user/user.entity';
 
+export enum TransactionType {
+  CreatorSell = 1,
+  AffiliateSell,
+  PaidComission,
+  ReceivedComission,
+}
+
 @Entity()
 export class Transaction {
   constructor(obj: Partial<Transaction>) {
@@ -11,7 +18,7 @@ export class Transaction {
   id: number;
 
   @Column()
-  type: number;
+  type: TransactionType;
 
   @Column({ length: 50 })
   product: string;
@@ -22,6 +29,6 @@ export class Transaction {
   @Column()
   value: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { cascade: true })
   seller: User;
 }

@@ -1,3 +1,4 @@
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   Controller,
   Get,
@@ -8,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { TransactionService } from './transaction.services';
 import { UserFromTransaction, UserService } from '../user/user.service';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { TransactionType } from './transaction.entity';
 
 @Controller('transaction')
 export class TransactionController {
@@ -42,6 +43,34 @@ export class TransactionController {
     await Promise.all(promises);
 
     await this.userService.createUsers(missingUsers);
-    // await this.transactionService.createTransactions(transcriptedTransactions);
+
+    const createdTransactions =
+      await this.transactionService.createTransactions(
+        transcriptedTransactions,
+      );
+
+    for (const transaction of createdTransactions) {
+      switch (transaction.type) {
+        case TransactionType.ReceivedComission:
+        case TransactionType.CreatorSell:
+          await this.userService.changeBalanceToUser(
+            transaction.seller.id,
+            transaction.value,
+          );
+          break;
+        case TransactionType.PaidComission:
+          await this.userService.changeBalanceToUser(
+            transaction.seller.id,
+            -transaction.value,
+          );
+          break;
+        case TransactionType.AffiliateSell:
+          if (transaction.seller.creator)
+            await this.userService.changeBalanceToUser(
+              transaction.seller.creator.id,
+              transaction.value,
+            );
+      }
+    }
   }
 }

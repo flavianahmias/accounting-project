@@ -4,6 +4,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 export enum Role {
@@ -29,7 +30,16 @@ export class User {
   @Column('float')
   balance: number;
 
-  @ManyToOne(() => User, { nullable: true })
+  @OneToMany((type) => User, (user) => user.creator)
+  affiliates: User[];
+
+  @ManyToOne(
+    (type) => User,
+    (user) => {
+      user.affiliates;
+    },
+    { nullable: true },
+  )
   @JoinTable()
   creator?: User;
 }

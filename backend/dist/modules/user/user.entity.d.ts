@@ -8,5 +8,6 @@ export declare class User {
     name: string;
     role: number;
     balance: number;
+    affiliates: User[];
     creator?: User;
 }

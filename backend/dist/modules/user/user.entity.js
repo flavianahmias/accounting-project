@@ -39,7 +39,13 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "balance", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => User_1, { nullable: true }),
+    (0, typeorm_1.OneToMany)((type) => User_1, (user) => user.creator),
+    __metadata("design:type", Array)
+], User.prototype, "affiliates", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)((type) => User_1, (user) => {
+        user.affiliates;
+    }, { nullable: true }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", User)
 ], User.prototype, "creator", void 0);

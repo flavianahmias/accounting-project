@@ -13,10 +13,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionController = void 0;
+const platform_express_1 = require("@nestjs/platform-express");
 const common_1 = require("@nestjs/common");
 const transaction_services_1 = require("./transaction.services");
 const user_service_1 = require("../user/user.service");
-const platform_express_1 = require("@nestjs/platform-express");
+const transaction_entity_1 = require("./transaction.entity");
 let TransactionController = class TransactionController {
     constructor(transactionService, userService) {
         this.transactionService = transactionService;
@@ -35,6 +36,21 @@ let TransactionController = class TransactionController {
         }));
         await Promise.all(promises);
         await this.userService.createUsers(missingUsers);
+        const createdTransactions = await this.transactionService.createTransactions(transcriptedTransactions);
+        for (const transaction of createdTransactions) {
+            switch (transaction.type) {
+                case transaction_entity_1.TransactionType.ReceivedComission:
+                case transaction_entity_1.TransactionType.CreatorSell:
+                    await this.userService.changeBalanceToUser(transaction.seller.id, transaction.value);
+                    break;
+                case transaction_entity_1.TransactionType.PaidComission:
+                    await this.userService.changeBalanceToUser(transaction.seller.id, -transaction.value);
+                    break;
+                case transaction_entity_1.TransactionType.AffiliateSell:
+                    if (transaction.seller.creator)
+                        await this.userService.changeBalanceToUser(transaction.seller.creator.id, transaction.value);
+            }
+        }
     }
 };
 __decorate([

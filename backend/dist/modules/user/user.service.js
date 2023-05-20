@@ -23,6 +23,12 @@ let UserService = class UserService {
     getUser() {
         return 'User!';
     }
+    async getUserById(id) {
+        return this.userRepository.findOne({
+            where: { id },
+            relations: ['creator'],
+        });
+    }
     async createUsers(usersFromTransaction) {
         const creators = usersFromTransaction.filter((u) => u.role === user_entity_1.Role.Creator);
         const affiliates = usersFromTransaction.filter((u) => u.role === user_entity_1.Role.Affiliate);
@@ -36,7 +42,6 @@ let UserService = class UserService {
             const creator = await this.userRepository.findOne({
                 where: { name: affiliate.creatorName },
             });
-            console.log('Found ' + (creator === null || creator === void 0 ? void 0 : creator.name) + ' for creator');
             return new user_entity_1.User({
                 balance: 0,
                 creator,
@@ -46,6 +51,15 @@ let UserService = class UserService {
         });
         const users = await Promise.all(promises);
         return this.userRepository.insert(users);
+    }
+    async changeBalanceToUser(id, amount) {
+        const foundUser = await this.userRepository.findOneOrFail({
+            where: {
+                id,
+            },
+        });
+        foundUser.balance += amount;
+        return this.userRepository.save(foundUser);
     }
 };
 UserService = __decorate([

@@ -6,6 +6,7 @@ export interface UserFromTransaction {
   username: string;
   role: Role;
   creatorName?: string;
+  balance?: number;
 }
 @Injectable()
 export class UserService {
@@ -16,6 +17,13 @@ export class UserService {
 
   getUser(): string {
     return 'User!';
+  }
+
+  async getUserById(id: number) {
+    return this.userRepository.findOne({
+      where: { id },
+      relations: ['creator'],
+    });
   }
 
   async createUsers(usersFromTransaction: UserFromTransaction[]) {
@@ -42,7 +50,6 @@ export class UserService {
       const creator = await this.userRepository.findOne({
         where: { name: affiliate.creatorName },
       });
-      console.log('Found ' + creator?.name + ' for creator');
 
       return new User({
         balance: 0,
@@ -55,4 +62,23 @@ export class UserService {
     const users = await Promise.all(promises);
     return this.userRepository.insert(users);
   }
+
+  async changeBalanceToUser(id: number, amount: number) {
+    const foundUser = await this.userRepository.findOneOrFail({
+      where: {
+        id,
+      },
+    });
+    foundUser.balance += amount;
+    return this.userRepository.save(foundUser);
+  }
+
+  // async changeBalanceToUsername(username: string, amount: number) {
+  //   const foundUser = await this.userRepository.findOneOrFail({
+  //     where: { name: username },
+  //   });
+
+  //   foundUser.balance += amount;
+  //   return this.userRepository.save(foundUser);
+  // }
 }

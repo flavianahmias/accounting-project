@@ -17,13 +17,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const transaction_entity_1 = require("./transaction.entity");
 const user_entity_1 = require("../user/user.entity");
-var SellType;
-(function (SellType) {
-    SellType[SellType["ProductorSell"] = 1] = "ProductorSell";
-    SellType[SellType["AffiliateSell"] = 2] = "AffiliateSell";
-    SellType[SellType["PaidComission"] = 3] = "PaidComission";
-    SellType[SellType["ReceivedComission"] = 4] = "ReceivedComission";
-})(SellType || (SellType = {}));
 let TransactionService = class TransactionService {
     constructor(transactionRepository, userRepository) {
         this.transactionRepository = transactionRepository;
@@ -31,15 +24,6 @@ let TransactionService = class TransactionService {
     }
     async findAll() {
         return this.transactionRepository.find();
-    }
-    async getTransactionByUser(userId) {
-        return this.transactionRepository.find({
-            where: {
-                seller: {
-                    id: userId,
-                },
-            },
-        });
     }
     async saveTransaction(transaction) {
         return this.transactionRepository.create(transaction);
@@ -78,6 +62,7 @@ let TransactionService = class TransactionService {
                     usersFromTransaction.push({
                         role: user_entity_1.Role.Creator,
                         username: fileTransaction.seller,
+                        balance: fileTransaction.value,
                     });
                     break;
                 case 2:
@@ -107,6 +92,7 @@ let TransactionService = class TransactionService {
             where: {
                 name: transactionFile.seller,
             },
+            relations: ['creator'],
         });
         const transaction = new transaction_entity_1.Transaction({
             date: transactionFile.date,
@@ -115,10 +101,16 @@ let TransactionService = class TransactionService {
             product: transactionFile.product,
             value: transactionFile.value,
         });
-        return this.transactionRepository.save(transaction);
+        await this.transactionRepository.save(transaction);
+        return transaction;
     }
     async createTransactions(transactions) {
-        return transactions.map(async (t) => await this.createTransaction(t));
+        const createdTransactions = [];
+        for (let transaction of transactions) {
+            let created = await this.createTransaction(transaction);
+            createdTransactions.push(created);
+        }
+        return createdTransactions;
     }
 };
 TransactionService = __decorate([
