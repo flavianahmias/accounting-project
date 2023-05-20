@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, UploadedFile } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Transaction } from './transaction.entity';
 import { User } from '../user/user.entity';
@@ -45,7 +45,10 @@ export class TransactionService {
     return this.transactionRepository.create(transaction);
   }
 
-  readTransactionFile(file: File): FileTransaction[] {
+  readTransactionFile(
+    @UploadedFile() file: Express.Multer.File,
+  ): FileTransaction[] {
+    console.log(file);
     return [];
   }
 

@@ -15,9 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
+const transaction_entity_1 = require("./transaction.entity");
+var SellType;
+(function (SellType) {
+    SellType[SellType["ProductorSell"] = 1] = "ProductorSell";
+    SellType[SellType["AffiliateSell"] = 2] = "AffiliateSell";
+    SellType[SellType["PaidComission"] = 3] = "PaidComission";
+    SellType[SellType["ReceivedComission"] = 4] = "ReceivedComission";
+})(SellType || (SellType = {}));
 let TransactionService = class TransactionService {
-    constructor(transactionRepository) {
+    constructor(transactionRepository, userRepository) {
         this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
     }
     async findAll() {
         return this.transactionRepository.find();
@@ -31,11 +40,47 @@ let TransactionService = class TransactionService {
             },
         });
     }
+    async saveTransaction(transaction) {
+        return this.transactionRepository.create(transaction);
+    }
+    readTransactionFile(file) {
+        console.log(file);
+        return [];
+    }
+    async getMissingUsers(usernames) {
+        const users = await this.userRepository.find();
+        return usernames.filter((username) => users.some((u) => u.name === username));
+    }
+    async createTransaction(transactionFile) {
+        const user = await this.userRepository.findOneOrFail({
+            where: {
+                name: transactionFile.seller,
+            },
+        });
+        const transaction = new transaction_entity_1.Transaction({
+            date: transactionFile.date,
+            seller: user,
+            product: transactionFile.product,
+            value: transactionFile.value,
+        });
+        return this.transactionRepository.save(transaction);
+    }
+    async createTransactions(transactions) {
+        return transactions.map(async (t) => await this.createTransaction(t));
+    }
 };
+__decorate([
+    __param(0, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Array)
+], TransactionService.prototype, "readTransactionFile", null);
 TransactionService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('TRANSACTION_REPOSITORY')),
-    __metadata("design:paramtypes", [typeorm_1.Repository])
+    __param(1, (0, common_1.Inject)('USER_REPOSITORY')),
+    __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository])
 ], TransactionService);
 exports.TransactionService = TransactionService;
 //# sourceMappingURL=transaction.services.js.map

@@ -13,6 +13,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 let User = User_1 = class User {
+    constructor(dto) {
+        Object.assign(this, dto);
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -36,7 +39,8 @@ __decorate([
     __metadata("design:type", User)
 ], User.prototype, "creator", void 0);
 User = User_1 = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)(),
+    __metadata("design:paramtypes", [Object])
 ], User);
 exports.User = User;
 //# sourceMappingURL=user.entity.js.map

@@ -13,6 +13,9 @@ exports.Transaction = void 0;
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../user/user.entity");
 let Transaction = class Transaction {
+    constructor(obj) {
+        Object.assign(this, obj);
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -35,7 +38,8 @@ __decorate([
     __metadata("design:type", user_entity_1.User)
 ], Transaction.prototype, "seller", void 0);
 Transaction = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)(),
+    __metadata("design:paramtypes", [Object])
 ], Transaction);
 exports.Transaction = Transaction;
 //# sourceMappingURL=transaction.entity.js.map
