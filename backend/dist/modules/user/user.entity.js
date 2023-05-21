@@ -45,7 +45,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToOne)((type) => User_1, (user) => {
         user.affiliates;
-    }, { nullable: true }),
+    }, { nullable: true, cascade: true }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", User)
 ], User.prototype, "creator", void 0);

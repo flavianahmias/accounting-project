@@ -38,7 +38,7 @@ export class User {
     (user) => {
       user.affiliates;
     },
-    { nullable: true },
+    { nullable: true, cascade: true },
   )
   @JoinTable()
   creator?: User;
