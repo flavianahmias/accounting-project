@@ -1,9 +1,26 @@
-import React from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import Sidebar from '@/components/sidebar';
 import Container from '@/components/container';
 import './page.css';
 
+import { getTransactions } from '@/service/transactions';
+
 export default function Home() {
+  const [TransactionsList, setTransactionsList] = useState([]);
+
+  useEffect(() => {
+    getTransactions((response) => {
+      try {
+        if (response.status === 200) {
+          setTransactionsList(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }, []);
   return (
     <div className="home">
       <Sidebar />
