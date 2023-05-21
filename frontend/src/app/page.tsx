@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Sidebar from '@/components/sidebar';
 import Container from '@/components/container';
 import './page.css';
@@ -38,19 +38,32 @@ export default function Home() {
       }
     });
   }, []);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      console.log(e.target.files[0]);
+    }
+  };
+
+  const handleUploadClick = () => {
+    if (!file) {
+      return;
+    }
+
+    uploadTransactions(file, (response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <div className="home">
       <Sidebar />
       <Container>
         <div className="transactions__container">
           <div className="forms">
-            {/* <input
-              type="text"
-              name="form"
-              // onChange={(name, value) => handleChange(name, value.target.value)}
-            /> */}
-
-            <input type="file" />
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUploadClick}>Upload</button>
           </div>
 
           <div className="list">

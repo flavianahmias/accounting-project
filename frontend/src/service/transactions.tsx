@@ -17,9 +17,15 @@ export function getTransactions(callback: ICallBack) {
       console.log(error);
     });
 }
-export function uploadTransactions(callback: ICallBack, file: File) {
+export function uploadTransactions(file: File, callback: ICallBack) {
+  let formData = new FormData();
+  formData.append('file', file);
   axiosInstance
-    .post(`${baseURL}/transaction`, { body: file })
+    .post(`${baseURL}/transaction/upload`, formData, {
+      headers: {
+        'content-type': `multipart/form-data`,
+      },
+    })
     .then((response) => {
       callback(response);
     })
