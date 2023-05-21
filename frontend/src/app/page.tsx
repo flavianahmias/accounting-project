@@ -5,7 +5,11 @@ import Sidebar from '@/components/sidebar';
 import Container from '@/components/container';
 import './page.css';
 
-import { getTransactions, uploadTransactions } from '@/service/transactions';
+import {
+  getTransactions,
+  getTransactionsById,
+  uploadTransactions,
+} from '@/service/transactions';
 
 interface ITransaction {
   id: number;
@@ -17,6 +21,8 @@ interface ITransaction {
 
 export default function Home() {
   const [TransactionsList, setTransactionsList] = useState<ITransaction[]>([]);
+  const [transactionSelected, setTransactionsSelected] =
+    useState<ITransaction>();
 
   const [file, setFile] = useState<File>();
 
@@ -31,6 +37,18 @@ export default function Home() {
       }
     });
   }, []);
+
+  const foundTransactionById = (id: number) => {
+    getTransactionsById(id, (response) => {
+      try {
+        if (response.status === 200) {
+          setTransactionsSelected(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -74,14 +92,22 @@ export default function Home() {
               <div className="transactions__list">
                 {TransactionsList.map((transaction, index) => {
                   return (
-                    <p className="transaction" key={transaction.id}>
+                    <p
+                      className="transaction"
+                      key={transaction.id}
+                      onClick={() => foundTransactionById(transaction.id)}
+                    >
                       {index + 1} - {transaction.product}
                     </p>
                   );
                 })}
               </div>
             </section>
-            <section className="visualization"></section>
+            <section className="visualization">
+              <p>
+                {transactionSelected ? transactionSelected.product : 'não tem'}
+              </p>
+            </section>
           </div>
         </div>
       </Container>
