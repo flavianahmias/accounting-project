@@ -62,7 +62,15 @@ export default function Home() {
       <Container>
         <div className="transactions__container">
           <div className="forms">
-            <input type="file" onChange={handleFileChange} />
+            <div className="drop">
+              <label htmlFor="selecao-arquivo">Insira seu arquivo</label>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="input"
+                id="selecao-arquivo"
+              />
+            </div>
             <button onClick={handleUploadClick}>Upload</button>
           </div>
 
