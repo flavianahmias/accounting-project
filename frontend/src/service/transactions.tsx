@@ -33,3 +33,13 @@ export function uploadTransactions(file: File, callback: ICallBack) {
       console.log(error);
     });
 }
+export function getTransactionsById(id: number, callback: ICallBack) {
+  axiosInstance
+    .get(`${baseURL}/transaction/${id}`, {})
+    .then((response) => {
+      callback(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
