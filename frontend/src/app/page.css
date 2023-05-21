@@ -81,10 +81,9 @@ label {
 
 .transactions__list {
   overflow: auto;
-  border: 1px solid yellow;
   margin-top: 10px;
   height: 100%;
-  padding: 1rem;
+  padding-inline: 1rem;
   display: flex;
   flex-direction: column;
   gap: 5px;

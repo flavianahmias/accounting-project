@@ -72,10 +72,10 @@ export default function Home() {
               <p>Total de transações: {TransactionsList.length}</p>
 
               <div className="transactions__list">
-                {TransactionsList.map((transaction) => {
+                {TransactionsList.map((transaction, index) => {
                   return (
                     <p className="transaction" key={transaction.id}>
-                      {transaction.product}
+                      {index + 1} - {transaction.product}
                     </p>
                   );
                 })}
