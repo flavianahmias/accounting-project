@@ -7,14 +7,23 @@ import './page.css';
 
 import { getTransactions } from '@/service/transactions';
 
+interface ITransaction {
+  id: number;
+  type: number;
+  product: string;
+  date: string;
+  value: number;
+}
+
 export default function Home() {
-  const [TransactionsList, setTransactionsList] = useState([]);
+  const [TransactionsList, setTransactionsList] = useState<ITransaction[]>([]);
 
   useEffect(() => {
     getTransactions((response) => {
       try {
         if (response.status === 200) {
           setTransactionsList(response.data);
+          console.log(TransactionsList);
         }
       } catch (error) {
         console.log(error);
@@ -29,7 +38,7 @@ export default function Home() {
           <div className="forms">Formulario </div>
 
           <div className="list">
-            <section className="table"></section>
+            <section className="table">{TransactionsList[0].product}</section>
             <section className="visualization"></section>
           </div>
         </div>
