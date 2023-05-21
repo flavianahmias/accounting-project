@@ -20,13 +20,6 @@ export default function Home() {
 
   const [file, setFile] = useState<File>();
 
-  // const handleChange = (field, value) => {
-  //   console.log(field, value);
-  //   // setData((current) => {
-  //   //   return { ...current, [field]: value };
-  //   // });
-  //   // setErrors((current) => current.filter((err) => err != field));
-  // };
   useEffect(() => {
     getTransactions((response) => {
       try {
@@ -74,8 +67,20 @@ export default function Home() {
             <button onClick={handleUploadClick}>Upload</button>
           </div>
 
-          <div className="list">
-            <section className="table">{TransactionsList[0]?.product}</section>
+          <div className="transactions">
+            <section className="table">
+              <p>Total de transações: {TransactionsList.length}</p>
+
+              <div className="transactions__list">
+                {TransactionsList.map((transaction) => {
+                  return (
+                    <p className="transaction" key={transaction.id}>
+                      {transaction.product}
+                    </p>
+                  );
+                })}
+              </div>
+            </section>
             <section className="visualization"></section>
           </div>
         </div>

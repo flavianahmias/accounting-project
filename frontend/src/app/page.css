@@ -50,7 +50,7 @@ label {
   box-sizing: border-box;
 }
 
-.list {
+.transactions {
   border: 1px solid red;
   box-sizing: border-box;
   width: 100%;
@@ -67,6 +67,8 @@ label {
   border: 1px solid green;
   height: 100%;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .visualization {
@@ -75,4 +77,36 @@ label {
   border: 1px solid blue;
   height: 100%;
   padding: 1rem;
+}
+
+.transactions__list {
+  overflow: auto;
+  border: 1px solid yellow;
+  margin-top: 10px;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-sizing: border-box;
+}
+
+.transaction {
+  padding-block: 10px;
+  border: 1px solid #e3e3e39e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e3e3e39e;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d9fe60;
+  border-radius: 4px;
+  border: 1px solid transparent;
 }
