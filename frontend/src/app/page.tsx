@@ -7,7 +7,16 @@ export default function Home() {
   return (
     <div className="home">
       <Sidebar />
-      <Container></Container>
+      <Container>
+        <div className="transactions__container">
+          <div className="forms">Formulario </div>
+
+          <div className="list">
+            <section className="table"></section>
+            <section className="visualization"></section>
+          </div>
+        </div>
+      </Container>
     </div>
   );
 }
