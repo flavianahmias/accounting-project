@@ -104,9 +104,16 @@ export default function Home() {
               </div>
             </section>
             <section className="visualization">
-              <p>
-                {transactionSelected ? transactionSelected.product : 'não tem'}
-              </p>
+              <title>Detalhes da transação</title>
+              {transactionSelected ? (
+                <div>
+                  <p>{transactionSelected.product}</p>
+                  <p>{transactionSelected.value}</p>
+                  <p>{transactionSelected.date}</p>
+                </div>
+              ) : (
+                <div>não tem</div>
+              )}
             </section>
           </div>
         </div>
