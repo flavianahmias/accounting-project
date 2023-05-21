@@ -16,7 +16,7 @@ exports.TransactionController = void 0;
 const platform_express_1 = require("@nestjs/platform-express");
 const common_1 = require("@nestjs/common");
 const transaction_services_1 = require("./transaction.services");
-const user_service_1 = require("../user/user.service");
+const user_services_1 = require("../user/user.services");
 const transaction_entity_1 = require("./transaction.entity");
 let TransactionController = class TransactionController {
     constructor(transactionService, userService) {
@@ -52,6 +52,12 @@ let TransactionController = class TransactionController {
             }
         }
     }
+    async getTransaction(id) {
+        const transaction = this.transactionService.getTransactionById(id);
+        if (!transaction)
+            throw new common_1.NotFoundException('Transaction not found');
+        return this.transactionService.getTransactionById(id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -67,10 +73,17 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TransactionController.prototype, "createFromFile", null);
+__decorate([
+    (0, common_1.Get)('/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], TransactionController.prototype, "getTransaction", null);
 TransactionController = __decorate([
     (0, common_1.Controller)('transaction'),
     __metadata("design:paramtypes", [transaction_services_1.TransactionService,
-        user_service_1.UserService])
+        user_services_1.UserService])
 ], TransactionController);
 exports.TransactionController = TransactionController;
 //# sourceMappingURL=transaction.controller.js.map

@@ -112,6 +112,11 @@ let TransactionService = class TransactionService {
         }
         return createdTransactions;
     }
+    async getTransactionById(id) {
+        return this.transactionRepository.findOne({
+            where: { id },
+        });
+    }
 };
 TransactionService = __decorate([
     (0, common_1.Injectable)(),

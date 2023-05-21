@@ -1,15 +1,20 @@
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
+  BadRequestException,
   Controller,
   Get,
+  HttpStatus,
+  NotFoundException,
+  Param,
   Post,
   Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.services';
-import { UserFromTransaction, UserService } from '../user/user.service';
+import { UserFromTransaction, UserService } from '../user/user.services';
 import { TransactionType } from './transaction.entity';
+import { Response } from 'express';
 
 @Controller('transaction')
 export class TransactionController {
@@ -72,5 +77,14 @@ export class TransactionController {
             );
       }
     }
+  }
+
+  @Get('/:id')
+  async getTransaction(@Param('id') id: number) {
+    const transaction = this.transactionService.getTransactionById(id);
+
+    if (!transaction) throw new NotFoundException('Transaction not found');
+
+    return this.transactionService.getTransactionById(id);
   }
 }

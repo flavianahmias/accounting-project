@@ -5,7 +5,7 @@ import { transactionProviders } from './transaction.providers';
 import { TransactionController } from './transaction.controller';
 import { UserModule } from '../user/user.module';
 import { userProviders } from '../user/user.provider';
-import { UserService } from '../user/user.service';
+import { UserService } from '../user/user.services';
 
 @Module({
   imports: [DatabaseModule, UserModule],

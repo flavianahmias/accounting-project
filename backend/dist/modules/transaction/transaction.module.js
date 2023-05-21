@@ -14,7 +14,7 @@ const transaction_providers_1 = require("./transaction.providers");
 const transaction_controller_1 = require("./transaction.controller");
 const user_module_1 = require("../user/user.module");
 const user_provider_1 = require("../user/user.provider");
-const user_service_1 = require("../user/user.service");
+const user_services_1 = require("../user/user.services");
 let TransactionModule = class TransactionModule {
 };
 TransactionModule = __decorate([
@@ -25,7 +25,7 @@ TransactionModule = __decorate([
             ...transaction_providers_1.transactionProviders,
             ...user_provider_1.userProviders,
             transaction_services_1.TransactionService,
-            user_service_1.UserService,
+            user_services_1.UserService,
         ],
     })
 ], TransactionModule);

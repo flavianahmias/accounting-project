@@ -68,4 +68,4 @@ UserService = __decorate([
     __metadata("design:paramtypes", [typeorm_1.Repository])
 ], UserService);
 exports.UserService = UserService;
-//# sourceMappingURL=user.service.js.map
+//# sourceMappingURL=user.services.js.map

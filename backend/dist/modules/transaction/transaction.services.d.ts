@@ -2,7 +2,7 @@
 import { Repository } from 'typeorm';
 import { TransactionType, Transaction } from './transaction.entity';
 import { User } from '../user/user.entity';
-import { UserFromTransaction } from '../user/user.service';
+import { UserFromTransaction } from '../user/user.services';
 interface FileTransaction {
     type: TransactionType;
     date: Date;
@@ -21,5 +21,6 @@ export declare class TransactionService {
     isActiveUser(username: string): Promise<boolean>;
     createTransaction(transactionFile: FileTransaction): Promise<Transaction>;
     createTransactions(transactions: FileTransaction[]): Promise<Transaction[]>;
+    getTransactionById(id: number): Promise<Transaction>;
 }
 export {};

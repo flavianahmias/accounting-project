@@ -2,7 +2,7 @@ import { Injectable, Inject, UploadedFile } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TransactionType, Transaction } from './transaction.entity';
 import { Role, User } from '../user/user.entity';
-import { UserFromTransaction } from '../user/user.service';
+import { UserFromTransaction } from '../user/user.services';
 
 interface FileTransaction {
   type: TransactionType;
@@ -24,16 +24,6 @@ export class TransactionService {
   async findAll(): Promise<Transaction[]> {
     return this.transactionRepository.find();
   }
-
-  // async getTransactionByUser(userId: number): Promise<Transaction[]> {
-  //   return this.transactionRepository.find({
-  //     where: {
-  //       seller: {
-  //         id: userId,
-  //       },
-  //     },
-  //   });
-  // }
 
   async saveTransaction(transaction: Transaction) {
     return this.transactionRepository.create(transaction);
@@ -145,5 +135,11 @@ export class TransactionService {
     }
 
     return createdTransactions;
+  }
+
+  async getTransactionById(id: number) {
+    return this.transactionRepository.findOne({
+      where: { id },
+    });
   }
 }
