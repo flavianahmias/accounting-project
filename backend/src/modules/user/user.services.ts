@@ -15,10 +15,6 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  getUser(): string {
-    return 'User!';
-  }
-
   async getUserById(id: number) {
     return this.userRepository.findOne({
       where: { id },

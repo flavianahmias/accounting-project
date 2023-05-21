@@ -81,10 +81,6 @@ export class TransactionController {
 
   @Get('/:id')
   async getTransaction(@Param('id') id: number) {
-    const transaction = this.transactionService.getTransactionById(id);
-
-    if (!transaction) throw new NotFoundException('Transaction not found');
-
     return this.transactionService.getTransactionById(id);
   }
 }

@@ -20,9 +20,6 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    getUser() {
-        return 'User!';
-    }
     async getUserById(id) {
         return this.userRepository.findOne({
             where: { id },

@@ -113,8 +113,9 @@ let TransactionService = class TransactionService {
         return createdTransactions;
     }
     async getTransactionById(id) {
-        return this.transactionRepository.findOne({
+        return this.transactionRepository.findOneOrFail({
             where: { id },
+            relations: ['seller'],
         });
     }
 };

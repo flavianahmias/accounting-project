@@ -53,9 +53,6 @@ let TransactionController = class TransactionController {
         }
     }
     async getTransaction(id) {
-        const transaction = this.transactionService.getTransactionById(id);
-        if (!transaction)
-            throw new common_1.NotFoundException('Transaction not found');
         return this.transactionService.getTransactionById(id);
     }
 };

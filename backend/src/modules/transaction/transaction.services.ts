@@ -137,9 +137,10 @@ export class TransactionService {
     return createdTransactions;
   }
 
-  async getTransactionById(id: number) {
-    return this.transactionRepository.findOne({
+  async getTransactionById(id: number): Promise<Transaction> {
+    return this.transactionRepository.findOneOrFail({
       where: { id },
+      relations: ['seller'],
     });
   }
 }
