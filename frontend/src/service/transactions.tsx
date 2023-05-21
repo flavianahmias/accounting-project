@@ -17,3 +17,13 @@ export function getTransactions(callback: ICallBack) {
       console.log(error);
     });
 }
+export function uploadTransactions(callback: ICallBack, file: File) {
+  axiosInstance
+    .post(`${baseURL}/transaction`, { body: file })
+    .then((response) => {
+      callback(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
