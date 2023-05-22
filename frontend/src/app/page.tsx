@@ -11,12 +11,21 @@ import {
   uploadTransactions,
 } from '@/service/transactions';
 
+interface IUser {
+  id: number;
+  name: string;
+  role: number;
+  balance: number;
+  creator?: IUser;
+}
+
 interface ITransaction {
   id: number;
   type: number;
   product: string;
   date: string;
   value: number;
+  seller: IUser;
 }
 
 export default function Home() {
@@ -82,7 +91,13 @@ export default function Home() {
                 id="selecao-arquivo"
               />
             </div>
-            <button onClick={handleUploadClick}>Upload</button>
+            <button
+              onClick={handleUploadClick}
+              className="upload"
+              disabled={!file}
+            >
+              Upload
+            </button>
           </div>
 
           <div className="transactions">
@@ -104,15 +119,30 @@ export default function Home() {
               </div>
             </section>
             <section className="visualization">
-              <title>Detalhes da transação</title>
+              <p>Detalhes da transação</p>
               {transactionSelected ? (
                 <div>
-                  <p>{transactionSelected.product}</p>
-                  <p>{transactionSelected.value}</p>
-                  <p>{transactionSelected.date}</p>
+                  <p className="transaction--product">
+                    {transactionSelected.product}
+                  </p>
+                  <p className="transaction--value">
+                    Valor: {transactionSelected.value}
+                  </p>
+                  <p className="transaction--date">
+                    Data:
+                    {new Date(transactionSelected.date).toLocaleDateString()}
+                  </p>
+                  <p className="transaction--sellerName">
+                    Vendedor: {transactionSelected.seller.name}
+                  </p>
+                  <p className="transaction--affilliate">
+                    {transactionSelected.seller.role === 1
+                      ? `Afiliado de: ${transactionSelected.seller.creator?.name}`
+                      : ``}
+                  </p>
                 </div>
               ) : (
-                <div>não tem</div>
+                <div>Selecione uma transação para ver mais</div>
               )}
             </section>
           </div>
