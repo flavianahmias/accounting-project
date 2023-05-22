@@ -129,7 +129,7 @@ export default function Transactions() {
     <div className="home">
       <title>Transações</title>
       {horizontalLoading && <Loading loadingType={'horizontal'} />}
-      <div className="transactions__container">
+      <div className="container">
         <div className="header">
           <h1>Transações</h1>
           <div className="forms">
@@ -179,7 +179,7 @@ export default function Transactions() {
               {circleLoading ? (
                 <Loading loadingType={'circle'} />
               ) : (
-                <div className="visualization">
+                <>
                   {TransactionsList.length > 0 ? (
                     <>
                       {TransactionsList.map((transaction, index) => {
@@ -195,9 +195,7 @@ export default function Transactions() {
                             onClick={() => findTransactionById(transaction.id)}
                           >
                             {index + 1} - {transaction.product}
-                            <span
-                              className={`transaction--type${transaction.type}`}
-                            >
+                            <span className={`type${transaction.type}`}>
                               {checkTransatctionType(transaction.type)}
                             </span>
                           </p>
@@ -205,45 +203,43 @@ export default function Transactions() {
                       })}
                     </>
                   ) : (
-                    <div className="visualization--noTransaction">
+                    <div className="noTransaction">
                       <p>Nenhuma transação encontrada.</p>
                       <p>Faça o upload do seu arquivo.</p>
                     </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           </section>
           <section className="visualization">
             {transactionSelected ? (
-              <div className="visualization--transaction">
-                <p className="transaction--product">
+              <div className="visualization__transaction">
+                <p className="product">
                   <span>{transactionSelected.product}</span>
-                  <span
-                    className={`tag transaction--type${transactionSelected.type}`}
-                  >
+                  <span className={`tag type${transactionSelected.type}`}>
                     {checkTransatctionType(transactionSelected.type)}
                   </span>
                 </p>
 
-                <p className="transaction--value">
+                <p className="value">
                   <span>Valor</span>
                   <span>
                     {numberToBrazilCurrency(transactionSelected.value)}
                   </span>
                 </p>
-                <p className="transaction--date">
+                <p className="date">
                   <span>Data</span>
                   <span>
                     {new Date(transactionSelected.date).toLocaleDateString()}
                   </span>
                 </p>
-                <p className="transaction--sellerName">
+                <p className="sellerName">
                   <span>Vendedor</span>
                   <span>{transactionSelected.seller.name}</span>
                 </p>
                 {transactionSelected.seller.role === 1 ? (
-                  <p className="transaction--affiliated">
+                  <p className="affiliated">
                     <span>Afiliado de</span>
                     <span>{transactionSelected.seller.creator.name}</span>
                   </p>
@@ -252,7 +248,7 @@ export default function Transactions() {
                 )}
               </div>
             ) : (
-              <p className="visualization--noData">
+              <p className="no__data">
                 <SvgHand />
                 <span>Selecione uma transação para ver mais detalhes</span>
               </p>

@@ -9,7 +9,7 @@
   height: 100%;
   overflow: auto;
 
-  .transactions__container {
+  .container {
     z-index: 1;
     width: 80vw;
     box-sizing: border-box;
@@ -170,7 +170,7 @@
         }
       }
 
-      .visualization {
+      > .visualization {
         box-sizing: border-box;
         height: 100%;
         padding: 1rem;
@@ -178,7 +178,7 @@
         justify-content: center;
         flex-direction: column;
 
-        .visualization--noData {
+        .no__data {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -200,7 +200,7 @@
           }
         }
 
-        .visualization--noTransaction {
+        .noTransaction {
           height: 100%;
           border: 1px double $grey;
           display: flex;
@@ -215,8 +215,8 @@
           }
         }
 
-        .visualization--transaction {
-          .transaction--product {
+        .visualization__transaction {
+          .product {
             color: $primary-color;
             font-size: 2rem;
             font-weight: bold;
@@ -228,10 +228,11 @@
             justify-content: space-between;
             align-items: center;
           }
-          .transaction--value,
-          .transaction--date,
-          .transaction--sellerName,
-          .transaction--affiliated {
+
+          .value,
+          .date,
+          .sellerName,
+          .affiliated {
             font-weight: bold;
             font-size: 1.5rem;
             margin-bottom: 1rem;
@@ -249,42 +250,42 @@
       }
     }
   }
-}
 
-.transaction--type {
-  padding: 0.5rem;
-  font-size: 13px;
-  border-radius: 34px;
-  color: white;
-  font-weight: 500;
-  min-width: 7rem;
-  text-align: center;
-}
-.transaction--type1 {
-  @extend .transaction--type;
-  background: $user-creator;
-}
-.transaction--type2 {
-  @extend .transaction--type;
-  background: $user-sell;
-}
-.transaction--type3 {
-  @extend .transaction--type;
-  background: $pag;
-}
-.transaction--type4 {
-  @extend .transaction--type;
-  background: $received;
-}
+  @keyframes animate-attention {
+    from {
+      outline-offset: 0;
+      outline-color: rgba(red, 1);
+    }
 
-@keyframes animate-attention {
-  from {
-    outline-offset: 0;
-    outline-color: rgba(red, 1);
+    to {
+      outline-color: rgba(red, 0);
+      outline-offset: 0.4rem;
+    }
   }
 
-  to {
-    outline-color: rgba(red, 0);
-    outline-offset: 0.4rem;
+  .type {
+    padding: 0.5rem;
+    font-size: 13px;
+    border-radius: 34px;
+    color: white;
+    font-weight: 500;
+    min-width: 7rem;
+    text-align: center;
+  }
+  .type1 {
+    @extend .type;
+    background: $user-creator;
+  }
+  .type2 {
+    @extend .type;
+    background: $user-sell;
+  }
+  .type3 {
+    @extend .type;
+    background: $pag;
+  }
+  .type4 {
+    @extend .type;
+    background: $received;
   }
 }
