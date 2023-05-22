@@ -26,6 +26,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.0.1",
     "@types/luxon": "^3.3.0"
   }
 }

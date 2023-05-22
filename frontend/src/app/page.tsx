@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Sidebar from '@/components/sidebar';
 import Container from '@/components/container';
 import './page.css';
@@ -11,6 +11,8 @@ import {
   uploadTransactions,
 } from '@/service/transactions';
 import Loading from '@/components/loading';
+import SvgFile from '../assets/file-solid.svg';
+import SvgFileUpdated from '../assets/file-circle-check-solid.svg';
 
 interface IUser {
   id: number;
@@ -35,8 +37,11 @@ export default function Home() {
     useState<ITransaction>();
 
   const [file, setFile] = useState<File>();
+  const [fileName, setFileName] = useState<string>('');
 
-  useEffect(() => {
+  let loadingFile = false;
+
+  const getAlTransactions = useCallback(() => {
     getTransactions((response) => {
       try {
         if (response.status === 200) {
@@ -46,6 +51,10 @@ export default function Home() {
         console.log(error);
       }
     });
+  }, []);
+
+  useEffect(() => {
+    getAlTransactions();
   }, []);
 
   const foundTransactionById = (id: number) => {
@@ -63,6 +72,7 @@ export default function Home() {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
+      setFileName(e.target.files[0].name);
     }
   };
 
@@ -71,24 +81,51 @@ export default function Home() {
       return;
     }
 
+    loadingFile = true;
     uploadTransactions(file, (response) => {
-      console.log(response);
+      try {
+        if (response.status === 200) {
+          getAlTransactions();
+          loadingFile = false;
+        }
+      } catch (error) {}
     });
   };
 
+  const parseBrazilNumber = (str: string) =>
+    parseFloat(str.replace(' ', '').replace('.', '').replace(',', '.'));
+
+  const numberToBrazilCurrency = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format;
+
   return (
     <div className="home">
+      <title>Transações</title>
       <Sidebar />
       <Container>
         <div className="transactions__container">
           <div className="forms">
             <div className="drop">
-              <label htmlFor="selecao-arquivo">Insira seu arquivo</label>
+              <label htmlFor="update-file">
+                {fileName !== '' ? (
+                  <div className="updateFileSVG">
+                    <SvgFileUpdated className="fileSVG" />
+                    {fileName}
+                  </div>
+                ) : (
+                  <div className="updateFileSVG">
+                    <SvgFile className="fileSVG" />
+                    Insira seu arquivo
+                  </div>
+                )}
+              </label>
               <input
                 type="file"
                 onChange={handleFileChange}
                 className="input"
-                id="selecao-arquivo"
+                id="update-file"
               />
             </div>
             <button
@@ -119,14 +156,13 @@ export default function Home() {
               </div>
             </section>
             <section className="visualization">
-              <p>Detalhes da transação</p>
               {transactionSelected ? (
                 <div>
                   <p className="transaction--product">
                     {transactionSelected.product}
                   </p>
                   <p className="transaction--value">
-                    Valor: {transactionSelected.value}
+                    Valor: {numberToBrazilCurrency(transactionSelected.value)}
                   </p>
                   <p className="transaction--date">
                     Data:
@@ -142,7 +178,9 @@ export default function Home() {
                   </p>
                 </div>
               ) : (
-                <div>Selecione uma transação para ver mais</div>
+                <p className="visualization--noData">
+                  Selecione uma transação para ver mais detalhes
+                </p>
                 // <Loading />
               )}
             </section>
