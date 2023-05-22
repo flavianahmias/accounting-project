@@ -11,6 +11,7 @@ import {
   uploadTransactions,
 } from '@/service/transactions';
 import SvgFile from '../../assets/file-solid.svg';
+import SvgHand from '../../assets/hand-pointer-solid.svg';
 import SvgFileUpdated from '../../assets/file-circle-check-solid.svg';
 import { ITransaction } from '@/helpers/interfaces';
 import { numberToBrazilCurrency } from '@/helpers/common';
@@ -49,7 +50,7 @@ export default function Home() {
    * This function searches for the transaction that was selected using the ID.
    * @param id transaction identifier
    */
-  const foundTransactionById = (id: number) => {
+  const findTransactionById = (id: number) => {
     getTransactionsById(id, (response) => {
       try {
         if (response.status === 200) {
@@ -126,32 +127,27 @@ export default function Home() {
   return (
     <div className="home">
       <title>Transações</title>
-      <Container>
-        {loading && (
-          <>
-            <div className="loading">
-              <Loading />
-            </div>
-            <div className="over"></div>
-          </>
-        )}
-        <div className="transactions__container">
+      {loading && <Loading />}
+      <div className="transactions__container">
+        <div className="header">
+          <h1>Transações</h1>
           <div className="forms">
             <div className="drop">
               <label htmlFor="update-file">
                 {fileName !== '' ? (
                   <div className="updateFileSVG">
                     <SvgFileUpdated className="fileSVG" />
-                    {fileName}
+                    <span>{fileName}</span>
                   </div>
                 ) : (
                   <div className="updateFileSVG">
                     <SvgFile className="fileSVG" />
-                    Clique aqui para inserir seu arquivo
+                    <span>Clique aqui para inserir seu arquivo</span>
                   </div>
                 )}
               </label>
               <input
+                hidden
                 type="file"
                 onChange={handleFileChange}
                 className="input"
@@ -161,83 +157,102 @@ export default function Home() {
             </div>
             <button
               onClick={handleUploadClick}
-              className={`upload ${!fileName && 'disabled'}`}
+              className={
+                'upload ' + (TransactionsList.length == 0 ? 'attention' : '')
+              }
               disabled={!fileName}
             >
               Upload
             </button>
           </div>
+        </div>
 
-          <div className="transactions">
-            <section className="table">
-              <div className="transactions__list">
-                {TransactionsList.length > 0 ? (
-                  <>
-                    <p>Total de transações: {TransactionsList.length}</p>
-                    {TransactionsList.map((transaction, index) => {
-                      return (
-                        <p
-                          className="transaction"
-                          key={transaction.id}
-                          onClick={() => foundTransactionById(transaction.id)}
+        <div className="transactions">
+          <section className="table">
+            <div className="header">
+              <p>
+                Total de transações: <em>{TransactionsList.length}</em>
+              </p>
+            </div>
+            <div className="transactions__list">
+              {TransactionsList.length > 0 ? (
+                <>
+                  {TransactionsList.map((transaction, index) => {
+                    return (
+                      <p
+                        className={
+                          'transaction ' +
+                          (transactionSelected?.id === transaction.id
+                            ? 'selected'
+                            : '')
+                        }
+                        key={transaction.id}
+                        onClick={() => findTransactionById(transaction.id)}
+                      >
+                        {index + 1} - {transaction.product}
+                        <span
+                          className={`transaction--type${transaction.type}`}
                         >
-                          {index + 1} - {transaction.product}
-                          {'  '}
-                          <span
-                            className={`transaction--type${transaction.type}`}
-                          >
-                            {checkTransatctionType(transaction.type)}
-                          </span>
-                        </p>
-                      );
-                    })}
-                  </>
+                          {checkTransatctionType(transaction.type)}
+                        </span>
+                      </p>
+                    );
+                  })}
+                </>
+              ) : (
+                <div className="visualization--noTransaction">
+                  <p>Nenhuma transação encontrada.</p>
+                  <p>Faça o upload do seu arquivo.</p>
+                </div>
+              )}
+            </div>
+          </section>
+          <section className="visualization">
+            {transactionSelected ? (
+              <div className="visualization--transaction">
+                <p className="transaction--product">
+                  <span>{transactionSelected.product}</span>
+                  <span
+                    className={`tag transaction--type${transactionSelected.type}`}
+                  >
+                    {checkTransatctionType(transactionSelected.type)}
+                  </span>
+                </p>
+
+                <p className="transaction--value">
+                  <span>Valor</span>
+                  <span>
+                    {numberToBrazilCurrency(transactionSelected.value)}
+                  </span>
+                </p>
+                <p className="transaction--date">
+                  <span>Data</span>
+                  <span>
+                    {new Date(transactionSelected.date).toLocaleDateString()}
+                  </span>
+                </p>
+                <p className="transaction--sellerName">
+                  <span>Vendedor</span>
+                  <span>{transactionSelected.seller.name}</span>
+                </p>
+                {transactionSelected.seller.role === 1 ? (
+                  <p className="transaction--affiliated">
+                    <span>Afiliado de</span>
+                    <span>{transactionSelected.seller.creator.name}</span>
+                  </p>
                 ) : (
-                  <div className="visualization--noTransaction">
-                    <p>Nenhuma transação encontrada.</p>
-                    <p>Faça o upload do seu arquivo.</p>
-                  </div>
+                  <></>
                 )}
               </div>
-            </section>
-            <section className="visualization">
-              {transactionSelected ? (
-                <div className="visualization--transaction">
-                  <p className="transaction--product">
-                    {transactionSelected.product}
-                  </p>
-                  <p className="transaction--value">
-                    Valor: {numberToBrazilCurrency(transactionSelected.value)}
-                    <span
-                      className={`transaction--type${transactionSelected.type}`}
-                    >
-                      {checkTransatctionType(transactionSelected.type)}
-                    </span>
-                  </p>
-                  <p className="transaction--date">
-                    Data:
-                    <span>
-                      {new Date(transactionSelected.date).toLocaleDateString()}
-                    </span>
-                  </p>
-                  <p className="transaction--sellerName">
-                    Vendedor: {transactionSelected.seller.name}
-                  </p>
-                  <p className="transaction--affiliated">
-                    {transactionSelected.seller.role === 1
-                      ? `Afiliado de: ${transactionSelected.seller.creator.name}`
-                      : ''}
-                  </p>
-                </div>
-              ) : (
-                <p className="visualization--noData">
-                  Selecione uma transação para ver mais detalhes
-                </p>
-              )}
-            </section>
-          </div>
+            ) : (
+              <p className="visualization--noData">
+                <SvgHand />
+                <span>Selecione uma transação para ver mais detalhes</span>
+              </p>
+            )}
+          </section>
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

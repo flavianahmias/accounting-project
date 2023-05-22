@@ -3,6 +3,33 @@ bodY {
   padding: 0;
   box-sizing: border-box;
 }
+
+.loading {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.over {
+  background: #2e2e2e36;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
 .center {
   height: 100%;
   width: 100%;
@@ -13,7 +40,7 @@ bodY {
 .wave {
   width: 5px;
   height: 40px;
-  background: linear-gradient(45deg, #d9fe60, #d9fe60);
+  background: linear-gradient(45deg, #404040, #404040);
   margin: 10px;
   animation: wave 1s linear infinite;
   border-radius: 20px;
