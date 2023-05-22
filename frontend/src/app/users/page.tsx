@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import Sidebar from '@/components/sidebar';
 import './page.scss';
 
 import { getUsers, getUserById } from '@/service/users';
@@ -49,7 +48,6 @@ export default function Home() {
   return (
     <div className="home">
       <title>Usuários</title>
-      <Sidebar />
       <div className="content">
         <h3>Usuários cadastrados</h3>
         {usersList.length > 0 ? (

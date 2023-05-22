@@ -1,5 +1,7 @@
+import Sidebar from '@/components/sidebar';
 import '../styles/global.css';
 import { Roboto } from 'next/font/google';
+import './_layout.scss';
 
 export const metadata = {
   title: 'Next.js',
@@ -18,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <Sidebar />
+        <div className="content">{children}</div>
+      </body>
     </html>
   );
 }

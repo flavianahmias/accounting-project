@@ -126,7 +126,6 @@ export default function Home() {
   return (
     <div className="home">
       <title>Transações</title>
-      <Sidebar />
       <Container>
         {loading && (
           <>
