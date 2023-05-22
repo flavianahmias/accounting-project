@@ -87,12 +87,13 @@ export default function Home() {
       <title>Usuários</title>
       <Sidebar />
       <div className="content">
+        <h3>Usuários cadastrados</h3>
         <table>
           <thead>
             <tr>
-              <th>Id</th>
+              <th style={{ width: '50px' }}>Id</th>
               <th>Nome</th>
-              <th>Cargo</th>
+              <th style={{ width: '100px' }}>Cargo</th>
               <th>Saldo</th>
             </tr>
           </thead>
@@ -101,9 +102,13 @@ export default function Home() {
               console.log(user);
               return (
                 <tr key={index} className="user">
-                  <td>#{index + 1}</td>
+                  <td style={{ width: '50px' }}>#{index + 1}</td>
                   <td>{user.name}</td>
-                  <td>{checkUserRole(user.role)}</td>
+                  <td style={{ width: '100px' }}>
+                    <p className={checkUserRole(user.role)}>
+                      {checkUserRole(user.role)}
+                    </p>
+                  </td>
                   <td>{numberToBrazilCurrency(user.balance)}</td>
                 </tr>
               );
