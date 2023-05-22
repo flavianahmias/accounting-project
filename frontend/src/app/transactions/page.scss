@@ -167,6 +167,21 @@
               color: $white;
             }
           }
+
+          .no__transaction {
+            height: 100%;
+            border: 1px double $grey;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: $grey;
+            box-sizing: content-box;
+            flex-direction: column;
+
+            p {
+              color: $label;
+            }
+          }
         }
       }
 
@@ -197,21 +212,6 @@
             text-align: center;
             color: $primary-color;
             font-style: italic;
-          }
-        }
-
-        .noTransaction {
-          height: 100%;
-          border: 1px double $grey;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: $grey;
-          box-sizing: content-box;
-          flex-direction: column;
-
-          p {
-            color: $label;
           }
         }
 

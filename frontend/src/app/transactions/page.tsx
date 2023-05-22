@@ -203,7 +203,7 @@ export default function Transactions() {
                       })}
                     </>
                   ) : (
-                    <div className="noTransaction">
+                    <div className="no__transaction">
                       <p>Nenhuma transação encontrada.</p>
                       <p>Faça o upload do seu arquivo.</p>
                     </div>
