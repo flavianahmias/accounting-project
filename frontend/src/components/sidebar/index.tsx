@@ -1,44 +1,23 @@
-import { useState } from 'react';
 import './styles.css';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Sidebar() {
-  const [page, setPage] = useState('transactions');
-
-  const handleChangePage = (page: string) => {
-    setPage(page);
-    redirect(`/${page}`);
-  };
+  const location = window.location.pathname.replace('/', '');
 
   const changeSelectedPageStyle = (pageSelected: string) => {
-    if (page === pageSelected) return 'selected';
+    if (pageSelected === location) return 'selected';
     else 'notSelected';
   };
 
   return (
     <div className="sidebar">
       <Link href="/transactions">
-        <button
-          className={changeSelectedPageStyle('transactions')}
-          onClick={() => {
-            setPage('transactions');
-            handleChangePage('transactions');
-          }}
-        >
+        <button className={changeSelectedPageStyle('transactions')}>
           Transações
         </button>
       </Link>
       <Link href="/users">
-        <button
-          className={changeSelectedPageStyle('users')}
-          onClick={() => {
-            setPage('users');
-            handleChangePage('users');
-          }}
-        >
-          Usuarios
-        </button>
+        <button className={changeSelectedPageStyle('users')}>Usuarios</button>
       </Link>
     </div>
   );
