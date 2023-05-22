@@ -12,34 +12,11 @@ import {
 } from '@/service/transactions';
 import Loading from '@/components/loading';
 import { getUsers, getUserById } from '@/service/users';
-
-export const numberToBrazilCurrency = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-}).format;
-
-export interface IUser {
-  id: number;
-  name: string;
-  role: number;
-  balance: number;
-  creator: IUser;
-}
-
-export interface ITransaction {
-  id: number;
-  type: number;
-  product: string;
-  date: string;
-  value: number;
-  seller: IUser;
-}
+import { IUser } from '@/helpers/interfaces';
+import { numberToBrazilCurrency } from '@/helpers/common';
 
 export default function Home() {
   const [usersList, setUsersList] = useState<IUser[]>([]);
-  const [userSelected, setUserSelected] = useState<IUser>();
-
-  let loadingFile = false;
 
   const getAllUsers = useCallback(() => {
     getUsers((response) => {
@@ -57,26 +34,12 @@ export default function Home() {
     getAllUsers();
   }, []);
 
-  const foundUserById = (id: number) => {
-    getUserById(id, (response) => {
-      try {
-        if (response.status === 200) {
-          setUserSelected(response.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
-
   const checkUserRole = (type: number) => {
     switch (type) {
       case 0:
         return 'Criador';
-        break;
       case 1:
         return 'Afiliado';
-        break;
       default:
         break;
     }

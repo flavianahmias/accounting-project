@@ -13,23 +13,8 @@ import {
 import Loading from '@/components/loading';
 import SvgFile from '../../assets/file-solid.svg';
 import SvgFileUpdated from '../../assets/file-circle-check-solid.svg';
-
-interface IUser {
-  id: number;
-  name: string;
-  role: number;
-  balance: number;
-  creator?: IUser;
-}
-
-interface ITransaction {
-  id: number;
-  type: number;
-  product: string;
-  date: string;
-  value: number;
-  seller: IUser;
-}
+import { ITransaction } from '@/helpers/interfaces';
+import { numberToBrazilCurrency } from '@/helpers/common';
 
 export default function Home() {
   const [TransactionsList, setTransactionsList] = useState<ITransaction[]>([]);
@@ -38,8 +23,6 @@ export default function Home() {
 
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
-
-  let loadingFile = false;
 
   const getAlTransactions = useCallback(() => {
     getTransactions((response) => {
@@ -81,12 +64,10 @@ export default function Home() {
       return;
     }
 
-    loadingFile = true;
     uploadTransactions(file, (response) => {
       try {
         if (response.status === 200) {
           getAlTransactions();
-          loadingFile = false;
         }
       } catch (error) {}
     });
@@ -96,25 +77,16 @@ export default function Home() {
     switch (type) {
       case 1:
         return 'Venda criador';
-        break;
       case 2:
-        return 'Venda Afiliado';
-        break;
+        return 'Venda afiliado';
       case 3:
         return 'Comissão paga';
-        break;
       case 4:
         return 'Comissão recebida';
-        break;
       default:
         break;
     }
   };
-
-  const numberToBrazilCurrency = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format;
 
   return (
     <div className="home">
@@ -208,7 +180,6 @@ export default function Home() {
                 <p className="visualization--noData">
                   Selecione uma transação para ver mais detalhes
                 </p>
-                // <Loading />
               )}
             </section>
           </div>
