@@ -14,6 +14,7 @@ import SvgFile from '../../assets/file-solid.svg';
 import SvgFileUpdated from '../../assets/file-circle-check-solid.svg';
 import { ITransaction } from '@/helpers/interfaces';
 import { numberToBrazilCurrency } from '@/helpers/common';
+import Loading from '@/components/loading';
 
 export default function Home() {
   const [TransactionsList, setTransactionsList] = useState<ITransaction[]>([]);
@@ -22,6 +23,7 @@ export default function Home() {
 
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   /**
    * This function requests a complete listing of all transactions.
@@ -80,13 +82,15 @@ export default function Home() {
    * @returns
    */
   const handleUploadClick = () => {
+    setLoading(true);
     if (!file) {
       return;
     }
 
     uploadTransactions(file, (response) => {
       try {
-        if (response.status === 200) {
+        if (response.status === 201) {
+          setLoading(false);
           getAlTransactions();
         }
       } catch (error) {}
@@ -119,6 +123,14 @@ export default function Home() {
       <title>Transações</title>
       <Sidebar />
       <Container>
+        {loading && (
+          <>
+            <div className="loading">
+              <Loading />
+            </div>
+            <div className="over"></div>
+          </>
+        )}
         <div className="transactions__container">
           <div className="forms">
             <div className="drop">
@@ -131,7 +143,7 @@ export default function Home() {
                 ) : (
                   <div className="updateFileSVG">
                     <SvgFile className="fileSVG" />
-                    Insira seu arquivo
+                    Clique aqui para inserir seu arquivo
                   </div>
                 )}
               </label>
@@ -144,7 +156,7 @@ export default function Home() {
             </div>
             <button
               onClick={handleUploadClick}
-              className="upload"
+              className={`upload ${!file && 'disabled'}`}
               disabled={!file}
             >
               Upload
