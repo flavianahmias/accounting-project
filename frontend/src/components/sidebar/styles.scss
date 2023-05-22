@@ -2,27 +2,26 @@
 
 .sidebar {
   background-color: $primary-color;
-  width: 20vw;
+  width: 17rem;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 2rem;
+  padding-top: 4rem;
   box-sizing: border-box;
+  align-items: stretch;
+  box-shadow: 1rem 0 1rem rgba($black, 0.2);
 
   .logo {
-    width: 100%;
+    margin: 0 auto;
+    width: 15rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding-bottom: 10px;
-    border-bottom: 1px solid $white;
-    margin-bottom: 20px;
 
     svg {
       width: 85%;
-      height: 40px;
       fill: $white;
     }
 
@@ -34,40 +33,51 @@
       margin-top: 5px;
     }
   }
-}
 
-.sidebarSVG {
-  width: 20px;
-  height: 20px;
-  fill: $svg-fill;
-  margin-right: 10px;
-}
-
-.link {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-button {
-  margin-left: 10px;
-  padding: 10px;
-  border: none;
-  background: transparent;
-  color: $grey-border;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.selected {
-  background: $white;
-  margin-left: 10px;
-  color: $background-hover;
-  border-top-right-radius: 26px;
-  border-bottom-right-radius: 26px;
-  padding-right: 25px;
+  hr {
+    margin: 1rem;
+    box-sizing: border-box;
+  }
 
   .sidebarSVG {
-    fill: $primary-color;
+    width: 20px;
+    height: 20px;
+    fill: $svg-fill;
+    margin-right: 10px;
+  }
+
+  .buttons {
+    margin-top: 1rem;
+    .link {
+      text-decoration: none;
+      cursor: pointer;
+
+      &:has(button.selected) {
+        pointer-events: none;
+      }
+
+      button {
+        border: none;
+        background: transparent;
+        color: $grey-border;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        width: 12rem;
+        padding: 0.5rem;
+
+        &.selected {
+          pointer-events: none;
+          background: $white;
+          color: $primary-color;
+          border-top-right-radius: 26px;
+          border-bottom-right-radius: 26px;
+
+          .sidebarSVG {
+            fill: $primary-color;
+          }
+        }
+      }
+    }
   }
 }

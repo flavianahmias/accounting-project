@@ -27,16 +27,19 @@ export default function Sidebar() {
         <SvgLogo />
         <p>Contabilidade</p>
       </div>
-      <Link href="/transactions" className="link">
-        <button className={getSidebarButtonStyle('/transactions')}>
-          <SvgBagMoney className="sidebarSVG" /> Transações
-        </button>
-      </Link>
-      <Link href="/users" className="link">
-        <button className={getSidebarButtonStyle('/users')}>
-          <SvgUser className="sidebarSVG" /> Usuarios
-        </button>
-      </Link>
+      <hr />
+      <div className="buttons">
+        <Link href="/transactions" className="link" id="transactions">
+          <button className={getSidebarButtonStyle('/transactions')}>
+            <SvgBagMoney className="sidebarSVG" /> Transações
+          </button>
+        </Link>
+        <Link href="/users" className="link" id="users">
+          <button className={getSidebarButtonStyle('/users')}>
+            <SvgUser className="sidebarSVG" /> Usuarios
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }
