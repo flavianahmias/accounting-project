@@ -1,5 +1,7 @@
+@import '../../app/variables.module.scss';
+
 .sidebar {
-  background-color: #d9fe60;
+  background-color: $primary-color;
   width: 20vw;
   height: 100vh;
   display: flex;
@@ -12,7 +14,7 @@
 .sidebarSVG {
   width: 20px;
   height: 20px;
-  fill: #a19e9e;
+  fill: $svg-fill;
   margin-right: 10px;
 }
 
@@ -26,21 +28,21 @@ button {
   padding: 10px;
   border: none;
   background: transparent;
-  color: rgb(178, 178, 178);
+  color: $grey-border;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
 .selected {
-  background: white;
+  background: $white;
   margin-left: 10px;
-  color: #95b238;
+  color: $background-hover;
   border-top-right-radius: 26px;
   border-bottom-right-radius: 26px;
   padding-right: 25px;
 
   .sidebarSVG {
-    fill: #d9fe60;
+    fill: $primary-color;
   }
 }

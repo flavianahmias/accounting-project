@@ -1,5 +1,22 @@
-$primary-color: #64ff00;
+$primary-color: #d9fe60;
+$white: #fff;
+$grey-border: #b2b2b2;
+$background-hover: #95b238;
+$svg-fill: #a39f9f;
+$label: #a19e9e;
+$black: black;
+$drop-background: #adb4b926;
+$grey: #e3e3e39e;
+$grey-dark: #cecece33;
+
+$user-creator: #d77686;
+$user-sell: #7686d7;
+$pag: rgb(125, 207, 100);
+$received: rgb(145, 118, 215);
 
 :export {
   primaryColor: $primary-color;
+  white: $white;
+  greyBorder: $grey-border;
+  $backgroundHover: $background-hover;
 }
