@@ -3,7 +3,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Sidebar from '@/components/sidebar';
 import Container from '@/components/container';
-import './page.css';
+import './page.scss';
 
 import {
   getTransactions,
