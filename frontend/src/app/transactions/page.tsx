@@ -10,7 +10,6 @@ import {
   getTransactionsById,
   uploadTransactions,
 } from '@/service/transactions';
-import Loading from '@/components/loading';
 import SvgFile from '../../assets/file-solid.svg';
 import SvgFileUpdated from '../../assets/file-circle-check-solid.svg';
 import { ITransaction } from '@/helpers/interfaces';

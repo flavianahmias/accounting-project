@@ -9,16 +9,38 @@
   box-sizing: border-box;
 }
 
+.sidebarSVG {
+  width: 20px;
+  height: 20px;
+  fill: #a19e9e;
+  margin-right: 10px;
+}
+
+.link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 button {
+  margin-left: 10px;
   padding: 10px;
   border: none;
   background: transparent;
+  color: rgb(178, 178, 178);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .selected {
   background: white;
   margin-left: 10px;
+  color: #95b238;
   border-top-right-radius: 26px;
   border-bottom-right-radius: 26px;
   padding-right: 25px;
+
+  .sidebarSVG {
+    fill: #d9fe60;
+  }
 }
