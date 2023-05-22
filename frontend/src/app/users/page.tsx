@@ -1,16 +1,9 @@
 'use client';
 
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Sidebar from '@/components/sidebar';
-import Container from '@/components/container';
 import './page.scss';
 
-import {
-  getTransactions,
-  getTransactionsById,
-  uploadTransactions,
-} from '@/service/transactions';
-import Loading from '@/components/loading';
 import { getUsers, getUserById } from '@/service/users';
 import { IUser } from '@/helpers/interfaces';
 import { numberToBrazilCurrency } from '@/helpers/common';
