@@ -11,6 +11,7 @@ import {
   uploadTransactions,
 } from '@/service/transactions';
 import Loading from '@/components/loading';
+import { getUsers } from '@/service/users';
 
 interface IUser {
   id: number;
@@ -39,11 +40,11 @@ export default function Home() {
 
   let loadingFile = false;
 
-  const getAlTransactions = useCallback(() => {
-    getTransactions((response) => {
+  const getAllUsers = useCallback(() => {
+    getUsers((response) => {
+      console.log(response);
       try {
         if (response.status === 200) {
-          setTransactionsList(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -52,7 +53,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    getAlTransactions();
+    getAllUsers();
   }, []);
 
   const foundTransactionById = (id: number) => {
@@ -64,29 +65,6 @@ export default function Home() {
       } catch (error) {
         console.log(error);
       }
-    });
-  };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-      setFileName(e.target.files[0].name);
-    }
-  };
-
-  const handleUploadClick = () => {
-    if (!file) {
-      return;
-    }
-
-    loadingFile = true;
-    uploadTransactions(file, (response) => {
-      try {
-        if (response.status === 200) {
-          getAlTransactions();
-          loadingFile = false;
-        }
-      } catch (error) {}
     });
   };
 
@@ -116,7 +94,7 @@ export default function Home() {
 
   return (
     <div className="home">
-      <title>Transações</title>
+      <title>Usuários</title>
       <Sidebar />
       <Container>
         <div className="transactions__container">
