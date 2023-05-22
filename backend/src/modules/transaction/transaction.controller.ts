@@ -2,8 +2,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   Controller,
   Get,
+  HttpStatus,
   Param,
   Post,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -11,6 +13,7 @@ import { TransactionService } from './transaction.services';
 import { UserFromTransaction, UserService } from '../user/user.services';
 import { TransactionType } from './transaction.entity';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @Controller('transaction')
 export class TransactionController {
@@ -46,7 +49,10 @@ export class TransactionController {
     },
   })
   @UseInterceptors(FileInterceptor('file'))
-  async createFromFile(@UploadedFile() file: Express.Multer.File) {
+  async createFromFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Res() response: Response,
+  ) {
     //Read transaction file
     const transcriptedTransactions =
       this.transactionService.readTransactionFile(file);
@@ -97,6 +103,14 @@ export class TransactionController {
               transaction.value,
             );
       }
+    }
+
+    if (createdTransactions) {
+      return response
+        .status(HttpStatus.CREATED)
+        .send('Successfully created transactions');
+    } else {
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

@@ -27,7 +27,7 @@ let TransactionController = class TransactionController {
     findAll() {
         return this.transactionService.findAll();
     }
-    async createFromFile(file) {
+    async createFromFile(file, response) {
         const transcriptedTransactions = this.transactionService.readTransactionFile(file);
         const usersFromFile = await this.transactionService.getUsersFromFile(transcriptedTransactions);
         const missingUsers = [];
@@ -51,6 +51,14 @@ let TransactionController = class TransactionController {
                     if (transaction.seller.creator)
                         await this.userService.changeBalanceToUser(transaction.seller.creator.id, transaction.value);
             }
+        }
+        if (createdTransactions) {
+            return response
+                .status(common_1.HttpStatus.CREATED)
+                .send('Successfully created transactions');
+        }
+        else {
+            return response.status(common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     async getTransaction(id) {
@@ -79,8 +87,9 @@ __decorate([
     }),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], TransactionController.prototype, "createFromFile", null);
 __decorate([
