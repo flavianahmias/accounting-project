@@ -140,7 +140,7 @@ export class TransactionService {
   async getTransactionById(id: number): Promise<Transaction> {
     return this.transactionRepository.findOneOrFail({
       where: { id },
-      relations: ['seller'],
+      relations: ['seller', 'seller.creator'],
     });
   }
 }
