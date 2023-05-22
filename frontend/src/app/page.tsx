@@ -10,6 +10,7 @@ import {
   getTransactionsById,
   uploadTransactions,
 } from '@/service/transactions';
+import Loading from '@/components/loading';
 
 interface IUser {
   id: number;
@@ -62,7 +63,6 @@ export default function Home() {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
 
@@ -143,6 +143,7 @@ export default function Home() {
                 </div>
               ) : (
                 <div>Selecione uma transação para ver mais</div>
+                // <Loading />
               )}
             </section>
           </div>
