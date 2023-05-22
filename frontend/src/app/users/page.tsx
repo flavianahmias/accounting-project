@@ -3,12 +3,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import './page.scss';
 
-import { getUsers, getUserById } from '@/service/users';
+import { getUsers } from '@/service/users';
 import { IUser } from '@/helpers/interfaces';
 import { numberToBrazilCurrency } from '@/helpers/common';
+import { Loading } from '@/components/loading';
 
-export default function Home() {
+export default function Users() {
   const [usersList, setUsersList] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   /**
    * This function makes the request to receive the complete list of users in the system;
@@ -21,6 +23,8 @@ export default function Home() {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     });
   }, []);
@@ -51,7 +55,9 @@ export default function Home() {
       <div className="content">
         <h1>Usuários cadastrados</h1>
         <hr />
-        {usersList.length > 0 ? (
+        {loading ? (
+          <Loading loadingType={'circle'} />
+        ) : usersList.length > 0 ? (
           <table>
             <thead>
               <tr>

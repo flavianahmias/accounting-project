@@ -1,8 +1,6 @@
 'use client';
 
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import Sidebar from '@/components/sidebar';
-import Container from '@/components/container';
 import './page.scss';
 
 import {
@@ -15,16 +13,17 @@ import SvgHand from '../../assets/hand-pointer-solid.svg';
 import SvgFileUpdated from '../../assets/file-circle-check-solid.svg';
 import { ITransaction } from '@/helpers/interfaces';
 import { numberToBrazilCurrency } from '@/helpers/common';
-import Loading from '@/components/loading';
+import { Loading } from '@/components/loading';
 
-export default function Home() {
+export default function Transactions() {
   const [TransactionsList, setTransactionsList] = useState<ITransaction[]>([]);
   const [transactionSelected, setTransactionsSelected] =
     useState<ITransaction>();
 
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [horizontalLoading, setHorizontalLoading] = useState<boolean>(false);
+  const [circleLoading, setCicleLoading] = useState<boolean>(true);
   const [inputKey, setInputKey] = useState<number>(0);
 
   /**
@@ -38,6 +37,8 @@ export default function Home() {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setCicleLoading(false);
       }
     });
   }, []);
@@ -84,7 +85,7 @@ export default function Home() {
    * @returns
    */
   const handleUploadClick = () => {
-    setLoading(true);
+    setHorizontalLoading(true);
     if (!file) {
       return;
     }
@@ -92,7 +93,7 @@ export default function Home() {
     uploadTransactions(file, (response) => {
       try {
         if (response.status === 201) {
-          setLoading(false);
+          setHorizontalLoading(false);
           getAlTransactions();
           setInputKey((l) => l + 1);
           setFileName('');
@@ -127,7 +128,7 @@ export default function Home() {
   return (
     <div className="home">
       <title>Transações</title>
-      {loading && <Loading />}
+      {horizontalLoading && <Loading loadingType={'horizontal'} />}
       <div className="transactions__container">
         <div className="header">
           <h1>Transações</h1>
@@ -175,34 +176,40 @@ export default function Home() {
               </p>
             </div>
             <div className="transactions__list">
-              {TransactionsList.length > 0 ? (
-                <>
-                  {TransactionsList.map((transaction, index) => {
-                    return (
-                      <p
-                        className={
-                          'transaction ' +
-                          (transactionSelected?.id === transaction.id
-                            ? 'selected'
-                            : '')
-                        }
-                        key={transaction.id}
-                        onClick={() => findTransactionById(transaction.id)}
-                      >
-                        {index + 1} - {transaction.product}
-                        <span
-                          className={`transaction--type${transaction.type}`}
-                        >
-                          {checkTransatctionType(transaction.type)}
-                        </span>
-                      </p>
-                    );
-                  })}
-                </>
+              {circleLoading ? (
+                <Loading loadingType={'circle'} />
               ) : (
-                <div className="visualization--noTransaction">
-                  <p>Nenhuma transação encontrada.</p>
-                  <p>Faça o upload do seu arquivo.</p>
+                <div className="visualization">
+                  {TransactionsList.length > 0 ? (
+                    <>
+                      {TransactionsList.map((transaction, index) => {
+                        return (
+                          <p
+                            className={
+                              'transaction ' +
+                              (transactionSelected?.id === transaction.id
+                                ? 'selected'
+                                : '')
+                            }
+                            key={transaction.id}
+                            onClick={() => findTransactionById(transaction.id)}
+                          >
+                            {index + 1} - {transaction.product}
+                            <span
+                              className={`transaction--type${transaction.type}`}
+                            >
+                              {checkTransatctionType(transaction.type)}
+                            </span>
+                          </p>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <div className="visualization--noTransaction">
+                      <p>Nenhuma transação encontrada.</p>
+                      <p>Faça o upload do seu arquivo.</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
