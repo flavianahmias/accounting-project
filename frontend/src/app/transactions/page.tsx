@@ -153,24 +153,34 @@ export default function Home() {
 
           <div className="transactions">
             <section className="table">
-              <p>Total de transações: {TransactionsList.length}</p>
-
               <div className="transactions__list">
-                {TransactionsList.map((transaction, index) => {
-                  return (
-                    <p
-                      className="transaction"
-                      key={transaction.id}
-                      onClick={() => foundTransactionById(transaction.id)}
-                    >
-                      {index + 1} - {transaction.product}
-                      {'  '}
-                      <span className={`transaction--type${transaction.type}`}>
-                        {checkTransatctionType(transaction.type)}
-                      </span>
-                    </p>
-                  );
-                })}
+                {TransactionsList.length > 0 ? (
+                  <>
+                    <p>Total de transações: {TransactionsList.length}</p>
+                    {TransactionsList.map((transaction, index) => {
+                      return (
+                        <p
+                          className="transaction"
+                          key={transaction.id}
+                          onClick={() => foundTransactionById(transaction.id)}
+                        >
+                          {index + 1} - {transaction.product}
+                          {'  '}
+                          <span
+                            className={`transaction--type${transaction.type}`}
+                          >
+                            {checkTransatctionType(transaction.type)}
+                          </span>
+                        </p>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <div className="visualization--noTransaction">
+                    <p>Nenhuma transação encontrada.</p>
+                    <p>Faça o upload do seu arquivo.</p>
+                  </div>
+                )}
               </div>
             </section>
             <section className="visualization">

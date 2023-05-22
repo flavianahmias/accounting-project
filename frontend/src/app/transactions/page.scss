@@ -115,6 +115,21 @@ label {
   color: $label;
 }
 
+.visualization--noTransaction {
+  height: 100%;
+  border: 1px double $grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $grey;
+  box-sizing: content-box;
+  flex-direction: column;
+
+  p {
+    color: $label;
+  }
+}
+
 .transactions__list {
   overflow: auto;
   margin-top: 10px;
