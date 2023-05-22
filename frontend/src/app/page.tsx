@@ -135,7 +135,7 @@ export default function Home() {
                   <p className="transaction--sellerName">
                     Vendedor: {transactionSelected.seller.name}
                   </p>
-                  <p className="transaction--affilliate">
+                  <p className="transaction--affiliated">
                     {transactionSelected.seller.role === 1
                       ? `Afiliado de: ${transactionSelected.seller.creator?.name}`
                       : ``}

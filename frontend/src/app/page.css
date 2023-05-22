@@ -124,4 +124,13 @@ label {
 .transaction--product {
   font-size: 16px;
   letter-spacing: 1px;
+  margin-block: 10px;
+}
+
+.transaction--value,
+.transaction--date,
+.transaction--sellerName,
+.transaction--affiliated {
+  margin-block: 5px;
+  font-size: 15px;
 }
