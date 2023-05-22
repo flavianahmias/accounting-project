@@ -44,6 +44,7 @@ Source/
 ├── backend/
 │   ├── Dockerfile
 │   └── src/
+│       ├── plugins
 │       ├── main.ts
 │       └── modules /
 │           ├── database/
