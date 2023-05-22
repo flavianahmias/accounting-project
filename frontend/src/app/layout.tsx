@@ -1,5 +1,5 @@
 import Sidebar from '@/components/sidebar';
-import '../styles/global.css';
+import '../styles/global.scss';
 import { Roboto } from 'next/font/google';
 import './_layout.scss';
 

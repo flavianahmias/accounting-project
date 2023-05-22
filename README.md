@@ -81,7 +81,7 @@ Source/
 │       ├── service/
 │       │   ├── transactions.tsx
 │       │   └── users.tsx
-│       └── styles.global.css
+│       └── styles.global.scss
 └── prompt/
     ├── intructions.md
     └── sales.tsx
