@@ -87,4 +87,24 @@ Source/
     └── sales.tsx
 ```
 
-<!-- ## Screenshots -->
+## Screenshots
+
+### Transactions List _(No transaction selected)_
+
+![myImages](./assets/transactions_list.jpeg)
+
+### Transactions List Empty
+
+![myImages](./assets/transactions_empty.jpeg)
+
+### Transaction Selected
+
+![myImages](./assets/transaction_selected.jpeg)
+
+### Users List
+
+![myImages](./assets/users_list.jpeg)
+
+### Users List Empty
+
+![myImages](./assets/users_empty.jpeg)
