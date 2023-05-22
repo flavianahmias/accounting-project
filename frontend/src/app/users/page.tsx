@@ -18,6 +18,9 @@ import { numberToBrazilCurrency } from '@/helpers/common';
 export default function Home() {
   const [usersList, setUsersList] = useState<IUser[]>([]);
 
+  /**
+   * This function makes the request to receive the complete list of users in the system;
+   */
   const getAllUsers = useCallback(() => {
     getUsers((response) => {
       try {
@@ -34,6 +37,11 @@ export default function Home() {
     getAllUsers();
   }, []);
 
+  /**
+   * This function checks the type of user.
+   * @param type the user role
+   * @returns user role in full
+   */
   const checkUserRole = (type: number) => {
     switch (type) {
       case 0:

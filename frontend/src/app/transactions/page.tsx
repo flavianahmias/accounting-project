@@ -23,6 +23,9 @@ export default function Home() {
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
 
+  /**
+   * This function requests a complete listing of all transactions.
+   */
   const getAlTransactions = useCallback(() => {
     getTransactions((response) => {
       try {
@@ -39,6 +42,10 @@ export default function Home() {
     getAlTransactions();
   }, []);
 
+  /**
+   * This function searches for the transaction that was selected using the ID.
+   * @param id transaction identifier
+   */
   const foundTransactionById = (id: number) => {
     getTransactionsById(id, (response) => {
       try {
@@ -51,6 +58,10 @@ export default function Home() {
     });
   };
 
+  /**
+   * This function receives the uploaded file and checks if it is the correct type.
+   * @param e File upload in input
+   */
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       if (e.target.files[0].type !== 'text/plain') {
@@ -62,6 +73,12 @@ export default function Home() {
     }
   };
 
+  /**
+   * This function checks if there is a file to send to the server,
+   * if it exists, it makes the transaction creation request.
+   * After that, Updates the list of displayed transactions
+   * @returns
+   */
   const handleUploadClick = () => {
     if (!file) {
       return;
@@ -76,6 +93,12 @@ export default function Home() {
     });
   };
 
+  /**
+   * This function checks according to the type received in the file
+   *  which is the category of the transition
+   * @param type transition type
+   * @returns Transaction type in full
+   */
   const checkTransatctionType = (type: number) => {
     switch (type) {
       case 1:
