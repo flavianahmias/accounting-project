@@ -1,7 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-import { baseURL } from './transactions';
-import { ICallBack } from './transactions';
-import { axiosInstance } from './transactions';
+import { ICallBack, axiosInstance, baseURL } from '@/helpers/common';
 
 export function getUsers(callback: ICallBack) {
   axiosInstance
