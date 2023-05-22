@@ -92,8 +92,24 @@ export default function Home() {
     });
   };
 
-  const parseBrazilNumber = (str: string) =>
-    parseFloat(str.replace(' ', '').replace('.', '').replace(',', '.'));
+  const checkTransatctionType = (type: number) => {
+    switch (type) {
+      case 1:
+        return 'Venda criador';
+        break;
+      case 2:
+        return 'Venda Afiliado';
+        break;
+      case 3:
+        return 'Comissão paga';
+        break;
+      case 4:
+        return 'Comissão recebida';
+        break;
+      default:
+        break;
+    }
+  };
 
   const numberToBrazilCurrency = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -150,6 +166,10 @@ export default function Home() {
                       onClick={() => foundTransactionById(transaction.id)}
                     >
                       {index + 1} - {transaction.product}
+                      {'  '}
+                      <span className={`transaction--type${transaction.type}`}>
+                        {checkTransatctionType(transaction.type)}
+                      </span>
                     </p>
                   );
                 })}
@@ -157,16 +177,23 @@ export default function Home() {
             </section>
             <section className="visualization">
               {transactionSelected ? (
-                <div>
+                <div className="visualization--transaction">
                   <p className="transaction--product">
                     {transactionSelected.product}
                   </p>
                   <p className="transaction--value">
                     Valor: {numberToBrazilCurrency(transactionSelected.value)}
+                    <span
+                      className={`transaction--type${transactionSelected.type}`}
+                    >
+                      {checkTransatctionType(transactionSelected.type)}
+                    </span>
                   </p>
                   <p className="transaction--date">
                     Data:
-                    {new Date(transactionSelected.date).toLocaleDateString()}
+                    <span>
+                      {new Date(transactionSelected.date).toLocaleDateString()}
+                    </span>
                   </p>
                   <p className="transaction--sellerName">
                     Vendedor: {transactionSelected.seller.name}

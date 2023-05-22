@@ -167,3 +167,40 @@ label {
   margin-block: 15px;
   font-size: 15px;
 }
+
+.transaction--type1 {
+  background: rgb(215, 118, 134);
+  padding: 2px 12px;
+  font-size: 13px;
+  border-radius: 34px;
+  margin-left: 15px;
+  color: white;
+  font-weight: 500;
+}
+.transaction--type2 {
+  background: rgb(118, 134, 215);
+  padding: 2px 12px;
+  font-size: 13px;
+  border-radius: 34px;
+  margin-left: 15px;
+  color: white;
+  font-weight: 500;
+}
+.transaction--type3 {
+  background: rgb(125, 207, 100);
+  padding: 2px 12px;
+  font-size: 13px;
+  border-radius: 34px;
+  margin-left: 15px;
+  color: white;
+  font-weight: 500;
+}
+.transaction--type4 {
+  background: rgb(145, 118, 215);
+  padding: 2px 12px;
+  font-size: 13px;
+  border-radius: 34px;
+  margin-left: 15px;
+  color: white;
+  font-weight: 500;
+}
