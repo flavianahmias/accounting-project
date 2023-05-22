@@ -13,7 +13,7 @@ import {
 import Loading from '@/components/loading';
 import { getUsers } from '@/service/users';
 
-interface IUser {
+export interface IUser {
   id: number;
   name: string;
   role: number;
@@ -21,7 +21,7 @@ interface IUser {
   creator?: IUser;
 }
 
-interface ITransaction {
+export interface ITransaction {
   id: number;
   type: number;
   product: string;
@@ -31,9 +31,7 @@ interface ITransaction {
 }
 
 export default function Home() {
-  const [TransactionsList, setTransactionsList] = useState<ITransaction[]>([]);
-  const [transactionSelected, setTransactionsSelected] =
-    useState<ITransaction>();
+  const [usersList, setUsersList] = useState<IUser[]>([]);
 
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
@@ -42,9 +40,9 @@ export default function Home() {
 
   const getAllUsers = useCallback(() => {
     getUsers((response) => {
-      console.log(response);
       try {
         if (response.status === 200) {
+          setUsersList(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -56,17 +54,17 @@ export default function Home() {
     getAllUsers();
   }, []);
 
-  const foundTransactionById = (id: number) => {
-    getTransactionsById(id, (response) => {
-      try {
-        if (response.status === 200) {
-          setTransactionsSelected(response.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
+  // const foundTransactionById = (id: number) => {
+  //   getTransactionsById(id, (response) => {
+  //     try {
+  //       if (response.status === 200) {
+  //         setTransactionsSelected(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   });
+  // };
 
   const checkTransatctionType = (type: number) => {
     switch (type) {
@@ -100,27 +98,27 @@ export default function Home() {
         <div className="transactions__container">
           <div className="transactions">
             <section className="table">
-              <p>Total de transações: {TransactionsList.length}</p>
+              <p>Total de usuários: {usersList.length}</p>
 
               <div className="transactions__list">
-                {TransactionsList.map((transaction, index) => {
+                {usersList.map((user, index) => {
                   return (
                     <p
                       className="transaction"
-                      key={transaction.id}
-                      onClick={() => foundTransactionById(transaction.id)}
+                      key={user.id}
+                      // onClick={() => foundTransactionById(transaction.id)}
                     >
-                      {index + 1} - {transaction.product}
-                      {'  '}
-                      <span className={`transaction--type${transaction.type}`}>
+                      {user.name}
+                      {/* {'  '}
+                      <span className={`transaction--type${user.role}`}>
                         {checkTransatctionType(transaction.type)}
-                      </span>
+                      </span> */}
                     </p>
                   );
                 })}
               </div>
             </section>
-            <section className="visualization">
+            {/* <section className="visualization">
               {transactionSelected ? (
                 <div className="visualization--transaction">
                   <p className="transaction--product">
@@ -155,7 +153,7 @@ export default function Home() {
                 </p>
                 // <Loading />
               )}
-            </section>
+            </section> */}
           </div>
         </div>
       </Container>
