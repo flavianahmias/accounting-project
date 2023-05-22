@@ -11,14 +11,19 @@ import {
   uploadTransactions,
 } from '@/service/transactions';
 import Loading from '@/components/loading';
-import { getUsers } from '@/service/users';
+import { getUsers, getUserById } from '@/service/users';
+
+export const numberToBrazilCurrency = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+}).format;
 
 export interface IUser {
   id: number;
   name: string;
   role: number;
   balance: number;
-  creator?: IUser;
+  creator: IUser;
 }
 
 export interface ITransaction {
@@ -32,9 +37,7 @@ export interface ITransaction {
 
 export default function Home() {
   const [usersList, setUsersList] = useState<IUser[]>([]);
-
-  const [file, setFile] = useState<File>();
-  const [fileName, setFileName] = useState<string>('');
+  const [userSelected, setUserSelected] = useState<IUser>();
 
   let loadingFile = false;
 
@@ -54,109 +57,60 @@ export default function Home() {
     getAllUsers();
   }, []);
 
-  // const foundTransactionById = (id: number) => {
-  //   getTransactionsById(id, (response) => {
-  //     try {
-  //       if (response.status === 200) {
-  //         setTransactionsSelected(response.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   });
-  // };
+  const foundUserById = (id: number) => {
+    getUserById(id, (response) => {
+      try {
+        if (response.status === 200) {
+          setUserSelected(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
 
-  const checkTransatctionType = (type: number) => {
+  const checkUserRole = (type: number) => {
     switch (type) {
+      case 0:
+        return 'Criador';
+        break;
       case 1:
-        return 'Venda criador';
-        break;
-      case 2:
-        return 'Venda Afiliado';
-        break;
-      case 3:
-        return 'Comissão paga';
-        break;
-      case 4:
-        return 'Comissão recebida';
+        return 'Afiliado';
         break;
       default:
         break;
     }
   };
 
-  const numberToBrazilCurrency = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format;
-
   return (
     <div className="home">
       <title>Usuários</title>
       <Sidebar />
-      <Container>
-        <div className="transactions__container">
-          <div className="transactions">
-            <section className="table">
-              <p>Total de usuários: {usersList.length}</p>
-
-              <div className="transactions__list">
-                {usersList.map((user, index) => {
-                  return (
-                    <p
-                      className="transaction"
-                      key={user.id}
-                      // onClick={() => foundTransactionById(transaction.id)}
-                    >
-                      {user.name}
-                      {/* {'  '}
-                      <span className={`transaction--type${user.role}`}>
-                        {checkTransatctionType(transaction.type)}
-                      </span> */}
-                    </p>
-                  );
-                })}
-              </div>
-            </section>
-            {/* <section className="visualization">
-              {transactionSelected ? (
-                <div className="visualization--transaction">
-                  <p className="transaction--product">
-                    {transactionSelected.product}
-                  </p>
-                  <p className="transaction--value">
-                    Valor: {numberToBrazilCurrency(transactionSelected.value)}
-                    <span
-                      className={`transaction--type${transactionSelected.type}`}
-                    >
-                      {checkTransatctionType(transactionSelected.type)}
-                    </span>
-                  </p>
-                  <p className="transaction--date">
-                    Data:
-                    <span>
-                      {new Date(transactionSelected.date).toLocaleDateString()}
-                    </span>
-                  </p>
-                  <p className="transaction--sellerName">
-                    Vendedor: {transactionSelected.seller.name}
-                  </p>
-                  <p className="transaction--affiliated">
-                    {transactionSelected.seller.role === 1
-                      ? `Afiliado de: ${transactionSelected.seller.creator?.name}`
-                      : ``}
-                  </p>
-                </div>
-              ) : (
-                <p className="visualization--noData">
-                  Selecione uma transação para ver mais detalhes
-                </p>
-                // <Loading />
-              )}
-            </section> */}
-          </div>
-        </div>
-      </Container>
+      <div className="content">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Cargo</th>
+              <th>Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usersList.map((user, index) => {
+              console.log(user);
+              return (
+                <tr key={index} className="user">
+                  <td>#{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{checkUserRole(user.role)}</td>
+                  <td>{numberToBrazilCurrency(user.balance)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

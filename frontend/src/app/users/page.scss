@@ -5,7 +5,7 @@
   flex-direction: row;
 }
 
-.transactions__container {
+.content {
   width: 80vw;
   height: 100vh;
   box-sizing: border-box;
@@ -16,117 +16,30 @@
   gap: 30px;
 }
 
-.forms {
-  box-sizing: border-box;
+table {
   width: 100%;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid #d9fe60;
+
+  thead {
+    th {
+      width: 200px;
+      align-items: center;
+    }
+  }
+
+  td,
+  tr {
+    height: 40px;
+    text-align: center;
+    align-items: center;
+  }
 }
 
-.drop {
-  background-color: #adb4b926;
-  border-radius: 5px;
-  cursor: pointer;
-  height: 180px;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-input[type='file'] {
-  display: none;
-}
-
-label {
-  color: #a19e9e;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-  box-sizing: border-box;
-  margin-top: 10px;
-}
-
-.updateFileSVG {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.fileSVG {
-  width: 40px;
-  height: 30px;
-  fill: #a19e9e;
-  margin-bottom: 10px;
-}
-
-.upload {
-  background-color: #d9fe60;
-  color: black;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 30%;
-  letter-spacing: 2px;
-  margin-top: 10px;
-}
-
-.transactions {
-  box-sizing: border-box;
-  width: 100%;
-  height: 50vh;
-  padding: 1rem;
-  gap: 20px;
+.home {
   display: flex;
   flex-direction: row;
-  border: 1px solid #e3e3e39e;
 }
 
-.table {
-  box-sizing: border-box;
-  width: 50%;
-  height: 100%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #d9fe60;
-}
-
-.visualization {
-  box-sizing: border-box;
-  width: 50%;
-  height: 100%;
-  padding: 1rem;
-}
-
-.visualization--noData {
-  height: 100%;
-  border: 1px double #e3e3e39e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e3e3e39e;
-  box-sizing: content-box;
-  color: #a19e9e;
-}
-
-.transactions__list {
-  overflow: auto;
-  margin-top: 10px;
-  height: 100%;
-  padding-inline: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  box-sizing: border-box;
-}
-
-.transaction {
+.user {
   padding: 10px;
   border: 1px solid #e3e3e39e;
   border-radius: 4px;
@@ -134,7 +47,7 @@ label {
   cursor: pointer;
 }
 
-.transaction:hover {
+.user:hover {
   padding: 10px;
   border: 1px solid #e3e3e39e;
   border-radius: 4px;
@@ -156,21 +69,20 @@ label {
   border: 1px solid transparent;
 }
 
-.transaction--product {
+.user__product {
   font-size: 16px;
   letter-spacing: 1px;
   margin-block: 10px;
 }
 
-.transaction--value,
-.transaction--date,
-.transaction--sellerName,
-.transaction--affiliated {
+.user__balance,
+.user__name,
+.user__creatorName {
   margin-block: 15px;
   font-size: 15px;
 }
 
-.transaction--type {
+.user__role {
   padding: 2px 12px;
   font-size: 13px;
   border-radius: 34px;
@@ -178,19 +90,11 @@ label {
   color: white;
   font-weight: 500;
 }
-.transaction--type1 {
-  @extend .transaction--type;
+.productor {
+  @extend .user__role;
   background: rgb(215, 118, 134);
 }
-.transaction--type2 {
-  @extend .transaction--type;
+.user__role2 {
+  @extend .user__role;
   background: rgb(118, 134, 215);
-}
-.transaction--type3 {
-  @extend .transaction--type;
-  background: rgb(125, 207, 100);
-}
-.transaction--type4 {
-  @extend .transaction--type;
-  background: rgb(145, 118, 215);
 }
