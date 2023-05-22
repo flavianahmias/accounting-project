@@ -52,32 +52,36 @@ export default function Home() {
       <Sidebar />
       <div className="content">
         <h3>Usuários cadastrados</h3>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '50px' }}>Id</th>
-              <th>Nome</th>
-              <th style={{ width: '100px' }}>Cargo</th>
-              <th>Saldo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usersList.map((user, index) => {
-              return (
-                <tr key={index} className="user">
-                  <td style={{ width: '50px' }}>#{index + 1}</td>
-                  <td>{user.name}</td>
-                  <td style={{ width: '100px' }}>
-                    <p className={checkUserRole(user.role)}>
-                      {checkUserRole(user.role)}
-                    </p>
-                  </td>
-                  <td>{numberToBrazilCurrency(user.balance)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {usersList.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '50px' }}>Id</th>
+                <th>Nome</th>
+                <th style={{ width: '100px' }}>Cargo</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usersList.map((user, index) => {
+                return (
+                  <tr key={index} className="user">
+                    <td style={{ width: '50px' }}>#{index + 1}</td>
+                    <td>{user.name}</td>
+                    <td style={{ width: '100px' }}>
+                      <p className={checkUserRole(user.role)}>
+                        {checkUserRole(user.role)}
+                      </p>
+                    </td>
+                    <td>{numberToBrazilCurrency(user.balance)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <p>Nenhum usuário cadastrado</p>
+        )}
       </div>
     </div>
   );
