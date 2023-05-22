@@ -10,6 +10,7 @@ import {
 import { TransactionService } from './transaction.services';
 import { UserFromTransaction, UserService } from '../user/user.services';
 import { TransactionType } from './transaction.entity';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @Controller('transaction')
 export class TransactionController {
@@ -32,6 +33,18 @@ export class TransactionController {
    * @returns created status
    */
   @Post('upload')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseInterceptors(FileInterceptor('file'))
   async createFromFile(@UploadedFile() file: Express.Multer.File) {
     //Read transaction file

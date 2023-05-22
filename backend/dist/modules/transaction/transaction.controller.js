@@ -18,6 +18,7 @@ const common_1 = require("@nestjs/common");
 const transaction_services_1 = require("./transaction.services");
 const user_services_1 = require("../user/user.services");
 const transaction_entity_1 = require("./transaction.entity");
+const swagger_1 = require("@nestjs/swagger");
 let TransactionController = class TransactionController {
     constructor(transactionService, userService) {
         this.transactionService = transactionService;
@@ -64,6 +65,18 @@ __decorate([
 ], TransactionController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Post)('upload'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
+    }),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
