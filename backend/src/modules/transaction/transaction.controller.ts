@@ -23,6 +23,10 @@ export class TransactionController {
     private readonly userService: UserService,
   ) {}
 
+  /**
+   * Gets all transactions
+   * @returns
+   */
   @Get()
   findAll() {
     return this.transactionService.findAll();

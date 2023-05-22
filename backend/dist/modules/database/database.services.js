@@ -8,11 +8,11 @@ exports.databaseServices = [
         useFactory: async () => {
             const dataSource = new typeorm_1.DataSource({
                 type: 'mysql',
-                host: 'localhost',
-                port: 4001,
+                host: process.env.DB_HOST,
+                port: parseInt(process.env.DB_PORT || '3360'),
                 username: 'root',
-                password: '123',
-                database: 'db',
+                password: process.env.DB_PASSWORD,
+                database: process.env.DB_DATABASE,
                 entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 synchronize: true,
             });
