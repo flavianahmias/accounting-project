@@ -1,0 +1,40 @@
+version: '1'
+services:
+  database:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=db
+    expose:
+      - 3306
+    healthcheck:
+      test: ['CMD', 'bash']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build: ./backend/
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_PASSWORD=123
+      - DB_DATABASE=db
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  frontend:
+    build: ./frontend/
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - '8080:8080'

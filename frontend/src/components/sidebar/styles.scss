@@ -9,6 +9,20 @@
   align-items: flex-start;
   padding-top: 2rem;
   box-sizing: border-box;
+
+  .logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 85%;
+      height: 40px;
+      fill: $white;
+    }
+    margin-bottom: 10px;
+    border-bottom: 1px solid $white;
+  }
 }
 
 .sidebarSVG {
