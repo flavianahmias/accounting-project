@@ -3,9 +3,12 @@ import Link from 'next/link';
 import SvgUser from '../../assets/users-solid.svg';
 import SvgBagMoney from '../../assets/sack-dollar-solid.svg';
 import SvgLogo from '../../assets/logo.svg';
-import SvgLogoSymbol from '../../assets/logo-symbol.svg';
 import { useEffect, useState } from 'react';
 
+/**
+ * Sidebar component
+ * @returns
+ */
 export default function Sidebar() {
   const [location, setLocation] = useState('');
 

@@ -1,5 +1,9 @@
 import './styles.css';
 
+/**
+ * Loading component
+ * @returns
+ */
 export default function Loading() {
   return (
     <div className="center">
