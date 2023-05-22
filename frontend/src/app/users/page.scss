@@ -1,66 +1,90 @@
 @import '../variables.module.scss';
 
-h3 {
-  padding-bottom: 10px;
-  border-bottom: 2px solid $primary-color;
-}
+.home {
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  flex-grow: 1;
+  height: 100%;
+  overflow: auto;
 
-table {
-  width: 100%;
-  margin-bottom: 20px;
+  .content {
+    display: flex;
+    flex-direction: column;
 
-  thead {
-    th {
-      width: 200px;
-      align-items: center;
-      border: 1px solid $primary-color;
-      padding-top: 8px;
+    h1 {
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: $primary-color;
+    }
+
+    hr {
+      width: 100%;
+      margin-block: 1rem 2rem;
+      border-bottom: 2px solid $primary-color;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 20px;
+
+      thead {
+        th {
+          width: 200px;
+          align-items: center;
+          border: 1px solid $grey;
+          padding-top: 8px;
+          font-weight: 500px;
+          letter-spacing: 1px;
+          color: $primary-color;
+
+          &:first-child {
+            width: 50px;
+            text-transform: uppercase;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          height: 60px !important;
+          border: 1px solid $grey;
+
+          td {
+            height: 100%;
+            vertical-align: middle;
+            text-align: center;
+          }
+
+          .creator {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            p {
+              padding: 2px 15px;
+              font-size: 14px;
+              border-radius: 34px;
+              color: white;
+              text-align: center;
+              background: $user-creator;
+              width: 50px;
+            }
+          }
+
+          .affiliated {
+            @extend .creator;
+            p {
+              background: $user-sell;
+            }
+          }
+
+          &:hover {
+            background-color: $drop-background;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
-
-  td,
-  tr {
-    border: 1px solid $primary-color;
-    height: 30px;
-    text-align: center;
-    align-items: center;
-    padding-top: 10px;
-  }
-}
-
-.home {
-  display: flex;
-  flex-direction: row;
-}
-
-.user {
-  padding: 10px;
-  border: 1px solid $grey;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.user:hover {
-  padding: 10px;
-  border-radius: 4px;
-  background-color: $grey-dark;
-  cursor: pointer;
-}
-
-.user__role {
-  padding: 2px 12px;
-  font-size: 13px;
-  border-radius: 34px;
-  margin-inline: 10px;
-  color: white;
-  font-weight: 500;
-}
-
-.Criador {
-  @extend .user__role;
-  background: $user-creator;
-}
-.Afiliado {
-  @extend .user__role;
-  background: $user-sell;
 }

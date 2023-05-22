@@ -34,12 +34,12 @@ export default function Home() {
    * @param type the user role
    * @returns user role in full
    */
-  const checkUserRole = (type: number) => {
+  const checkUserRole = (type: number, className?: boolean) => {
     switch (type) {
       case 0:
-        return 'Criador';
+        return className ? 'creator' : 'Criador';
       case 1:
-        return 'Afiliado';
+        return className ? 'affiliated' : 'Afiliado';
       default:
         break;
     }
@@ -49,14 +49,15 @@ export default function Home() {
     <div className="home">
       <title>Usuários</title>
       <div className="content">
-        <h3>Usuários cadastrados</h3>
+        <h1>Usuários cadastrados</h1>
+        <hr />
         {usersList.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th style={{ width: '50px' }}>Id</th>
+                <th>Id</th>
                 <th>Nome</th>
-                <th style={{ width: '100px' }}>Cargo</th>
+                <th>Cargo</th>
                 <th>Saldo</th>
                 <th>Afiliado de {'*'}</th>
               </tr>
@@ -64,13 +65,13 @@ export default function Home() {
             <tbody>
               {usersList.map((user, index) => {
                 return (
-                  <tr key={index} className="user">
-                    <td style={{ width: '50px' }}>#{index + 1}</td>
+                  <tr key={index}>
+                    <td>#{index + 1}</td>
                     <td>{user.name}</td>
-                    <td style={{ width: '100px' }}>
-                      <p className={checkUserRole(user.role)}>
-                        {checkUserRole(user.role)}
-                      </p>
+                    <td>
+                      <div className={checkUserRole(user.role, true)}>
+                        <p>{checkUserRole(user.role)}</p>
+                      </div>
                     </td>
                     <td>{numberToBrazilCurrency(user.balance)}</td>
                     <td>{user.creator?.name ? user.creator?.name : '-'}</td>
