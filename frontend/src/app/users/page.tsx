@@ -62,7 +62,6 @@ export default function Home() {
           </thead>
           <tbody>
             {usersList.map((user, index) => {
-              console.log(user);
               return (
                 <tr key={index} className="user">
                   <td style={{ width: '50px' }}>#{index + 1}</td>

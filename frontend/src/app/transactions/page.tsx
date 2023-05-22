@@ -54,8 +54,12 @@ export default function Home() {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
-      setFileName(e.target.files[0].name);
+      if (e.target.files[0].type !== 'text/plain') {
+        alert('Por favor insira um arquivo do tipo txt.');
+      } else {
+        setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+      }
     }
   };
 
