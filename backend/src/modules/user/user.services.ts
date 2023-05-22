@@ -15,6 +15,12 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepository.find({
+      relations: ['creator'],
+    });
+  }
+
   async getUserById(id: number) {
     return this.userRepository.findOne({
       where: { id },
@@ -68,13 +74,4 @@ export class UserService {
     foundUser.balance += amount;
     return this.userRepository.save(foundUser);
   }
-
-  // async changeBalanceToUsername(username: string, amount: number) {
-  //   const foundUser = await this.userRepository.findOneOrFail({
-  //     where: { name: username },
-  //   });
-
-  //   foundUser.balance += amount;
-  //   return this.userRepository.save(foundUser);
-  // }
 }

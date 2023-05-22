@@ -19,10 +19,19 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async getAllUsers() {
+        return this.userService.getAllUsers();
+    }
     async getUser(id) {
         return this.userService.getUserById(id);
     }
 };
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAllUsers", null);
 __decorate([
     (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id')),

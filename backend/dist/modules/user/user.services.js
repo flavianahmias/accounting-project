@@ -20,6 +20,11 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
+    async getAllUsers() {
+        return this.userRepository.find({
+            relations: ['creator'],
+        });
+    }
     async getUserById(id) {
         return this.userRepository.findOne({
             where: { id },

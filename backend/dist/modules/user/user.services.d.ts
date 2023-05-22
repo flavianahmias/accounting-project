@@ -9,6 +9,7 @@ export interface UserFromTransaction {
 export declare class UserService {
     private userRepository;
     constructor(userRepository: Repository<User>);
+    getAllUsers(): Promise<User[]>;
     getUserById(id: number): Promise<User>;
     createUsers(usersFromTransaction: UserFromTransaction[]): Promise<import("typeorm").InsertResult>;
     changeBalanceToUser(id: number, amount: number): Promise<User>;
