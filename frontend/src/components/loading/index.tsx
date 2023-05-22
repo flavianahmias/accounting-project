@@ -14,7 +14,7 @@ export const Loading = ({ loadingType }: IProps) => {
   return (
     <>
       {loadingType === 'horizontal' ? (
-        <>
+        <div className="loading">
           <div className="center">
             <div className="wave"></div>
             <div className="wave"></div>
@@ -28,7 +28,7 @@ export const Loading = ({ loadingType }: IProps) => {
             <div className="wave"></div>
           </div>
           <div className="over"></div>
-        </>
+        </div>
       ) : (
         <>
           <div className="roller">
