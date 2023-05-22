@@ -18,13 +18,21 @@ export default function Sidebar() {
     changeSelectedPageStyle(getPathname);
   });
 
-  const handleClickOption = (page: string) => {
-    if (page !== location) {
-      setLocation(page);
-      changeSelectedPageStyle(page);
+  /**
+   * The function get the selected page and change style option
+   * @param pageSelected page selected
+   */
+  const handleClickOption = (pageSelected: string) => {
+    if (pageSelected !== location) {
+      setLocation(pageSelected);
+      changeSelectedPageStyle(pageSelected);
     }
   };
 
+  /**
+   * The function get the selected page and change style option
+   * @param page page selected
+   */
   const changeSelectedPageStyle = (pageSelected: string) => {
     if (pageSelected === location) return 'selected';
     else 'notSelected';
