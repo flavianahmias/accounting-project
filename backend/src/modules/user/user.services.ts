@@ -15,12 +15,21 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  /**
+   * Get all users
+   * @returns all users array
+   */
   async getAllUsers(): Promise<User[]> {
     return this.userRepository.find({
       relations: ['creator'],
     });
   }
 
+  /**
+   * Get user by id
+   * @param id user id
+   * @returns user
+   */
   async getUserById(id: number) {
     return this.userRepository.findOne({
       where: { id },
@@ -28,6 +37,11 @@ export class UserService {
     });
   }
 
+  /**
+   * Create the users
+   * @param usersFromTransaction
+   * @returns
+   */
   async createUsers(usersFromTransaction: UserFromTransaction[]) {
     const creators = usersFromTransaction.filter(
       (u) => u.role === Role.Creator,
@@ -37,6 +51,7 @@ export class UserService {
       (u) => u.role === Role.Affiliate,
     );
 
+    //Array with users creators
     const creatorUsers = creators.map(
       (c) =>
         new User({
@@ -49,6 +64,7 @@ export class UserService {
     await this.userRepository.insert(creatorUsers);
 
     const promises: Promise<User>[] = affiliates.map(async (affiliate) => {
+      //Find for the affiliate creator
       const creator = await this.userRepository.findOne({
         where: { name: affiliate.creatorName },
       });
@@ -65,6 +81,12 @@ export class UserService {
     return this.userRepository.insert(users);
   }
 
+  /**
+   * Upload user balance
+   * @param id user id
+   * @param amount value
+   * @returns upload user
+   */
   async changeBalanceToUser(id: number, amount: number) {
     const foundUser = await this.userRepository.findOneOrFail({
       where: {

@@ -21,14 +21,27 @@ export class TransactionService {
     private userRepository: Repository<User>,
   ) {}
 
+  /**
+   * This function find all transactions in database
+   * @returns all transactions in database
+   */
   async findAll(): Promise<Transaction[]> {
     return this.transactionRepository.find();
   }
 
+  /**
+   * This function save transactions in database
+   * @returns 201 status code
+   */
   async saveTransaction(transaction: Transaction) {
     return this.transactionRepository.create(transaction);
   }
 
+  /**
+   * This function read the text file and return the array
+   * with all transactions in object format
+   * @returns transactions array
+   */
   readTransactionFile(file: Express.Multer.File): FileTransaction[] {
     const data = file.buffer.toString();
     const lines = data.split('\n');
@@ -46,6 +59,12 @@ export class TransactionService {
     return fileTransactions;
   }
 
+  /**
+   * This function recognizes each user of the transitions
+   * and according to his position adds the correct keys.
+   * @param fileTransactions
+   * @returns
+   */
   async getUsersFromFile(
     fileTransactions: FileTransaction[],
   ): Promise<UserFromTransaction[]> {
@@ -54,6 +73,7 @@ export class TransactionService {
 
     fileTransactions
       .filter((f) => {
+        //Verify that the seller already exists in the database
         if (verifiedUsers.includes(f.seller)) {
           return false;
         } else {
@@ -62,8 +82,8 @@ export class TransactionService {
         }
       })
       .forEach((fileTransaction) => {
+        //If the transaction is from a creator that does not exist in the database, it creates a user of the creator type.
         switch (fileTransaction.type) {
-          // Creator
           case 1:
           case 3:
             usersFromTransaction.push({
@@ -73,11 +93,10 @@ export class TransactionService {
             });
             break;
 
-          // Affiliate
           case 2:
           case 4:
-            // Find Creator
-            // Based on name of product
+            // Searches if there is a creator of this transaction based on the product name
+            // if it exists, it means that the transaction is from an affiliate,
             const creator = fileTransactions.find(
               (f) =>
                 f.product === fileTransaction.product &&
@@ -85,6 +104,7 @@ export class TransactionService {
             );
 
             if (creator) {
+              // Creates a user of type affiliate with a reference to its creator.
               usersFromTransaction.push({
                 role: Role.Affiliate,
                 username: fileTransaction.seller,
@@ -99,6 +119,11 @@ export class TransactionService {
     return usersFromTransaction;
   }
 
+  /**
+   * This function checks if the user already exists in the database.
+   * @param username user name
+   * @returns if the user exists in the database
+   */
   async isActiveUser(username: string) {
     const foundUser = await this.userRepository.findOne({
       where: { name: username },
@@ -107,6 +132,12 @@ export class TransactionService {
     return !!foundUser;
   }
 
+  /**
+   * This function creates a transaction object in the database
+   * @param transactionFile transaction object
+   * @returns transactions new object with the seller
+   *
+   */
   async createTransaction(transactionFile: FileTransaction) {
     const user = await this.userRepository.findOneOrFail({
       where: {
@@ -127,6 +158,11 @@ export class TransactionService {
     return transaction;
   }
 
+  /**
+   * TThis function goes through all existing transactions and creates each one in the database
+   * @param transactions transactions array
+   * @returns transactions array
+   */
   async createTransactions(transactions: FileTransaction[]) {
     const createdTransactions: Transaction[] = [];
     for (let transaction of transactions) {
@@ -137,6 +173,11 @@ export class TransactionService {
     return createdTransactions;
   }
 
+  /**
+   * This function searches for the transaction by id
+   * @param id transaction id
+   * @returns transaction
+   */
   async getTransactionById(id: number): Promise<Transaction> {
     return this.transactionRepository.findOneOrFail({
       where: { id },
