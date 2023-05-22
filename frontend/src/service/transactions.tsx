@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 
-const baseURL = 'http://localhost:3000';
+export const baseURL = 'http://localhost:3000';
 
-interface ICallBack {
+export interface ICallBack {
   (status: AxiosResponse): void;
 }
 
-const axiosInstance = axios.create({ baseURL });
+export const axiosInstance = axios.create({ baseURL });
 export function getTransactions(callback: ICallBack) {
   axiosInstance
     .get(`${baseURL}/transaction`)

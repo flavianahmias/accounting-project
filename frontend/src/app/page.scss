@@ -177,16 +177,20 @@ label {
   margin-left: 15px;
   color: white;
   font-weight: 500;
-  .transaction--type1 {
-    background: rgb(215, 118, 134);
-  }
-  .transaction--type2 {
-    background: rgb(118, 134, 215);
-  }
-  .transaction--type3 {
-    background: rgb(125, 207, 100);
-  }
-  .transaction--type4 {
-    background: rgb(145, 118, 215);
-  }
+}
+.transaction--type1 {
+  @extend .transaction--type;
+  background: rgb(215, 118, 134);
+}
+.transaction--type2 {
+  @extend .transaction--type;
+  background: rgb(118, 134, 215);
+}
+.transaction--type3 {
+  @extend .transaction--type;
+  background: rgb(125, 207, 100);
+}
+.transaction--type4 {
+  @extend .transaction--type;
+  background: rgb(145, 118, 215);
 }
