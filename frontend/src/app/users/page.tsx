@@ -60,6 +60,7 @@ export default function Home() {
                 <th>Nome</th>
                 <th style={{ width: '100px' }}>Cargo</th>
                 <th>Saldo</th>
+                <th>Afiliado de {'*'}</th>
               </tr>
             </thead>
             <tbody>
@@ -74,6 +75,7 @@ export default function Home() {
                       </p>
                     </td>
                     <td>{numberToBrazilCurrency(user.balance)}</td>
+                    <td>{user.creator?.name ? user.creator?.name : '-'}</td>
                   </tr>
                 );
               })}

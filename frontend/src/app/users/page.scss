@@ -22,11 +22,14 @@ table {
     th {
       width: 200px;
       align-items: center;
+      border: 1px solid $primary-color;
+      padding-top: 8px;
     }
   }
 
   td,
   tr {
+    border: 1px solid $primary-color;
     height: 30px;
     text-align: center;
     align-items: center;
@@ -43,13 +46,11 @@ table {
   padding: 10px;
   border: 1px solid $grey;
   border-radius: 4px;
-  background-color: $grey-dark;
   cursor: pointer;
 }
 
 .user:hover {
   padding: 10px;
-  border: 1px solid $grey;
   border-radius: 4px;
   background-color: $grey-dark;
   cursor: pointer;
@@ -59,7 +60,7 @@ table {
   padding: 2px 12px;
   font-size: 13px;
   border-radius: 34px;
-  margin-left: 15px;
+  margin-inline: 10px;
   color: white;
   font-weight: 500;
 }
