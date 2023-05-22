@@ -24,6 +24,7 @@ export default function Home() {
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [inputKey, setInputKey] = useState<number>(0);
 
   /**
    * This function requests a complete listing of all transactions.
@@ -92,8 +93,12 @@ export default function Home() {
         if (response.status === 201) {
           setLoading(false);
           getAlTransactions();
+          setInputKey((l) => l + 1);
+          setFileName('');
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     });
   };
 
@@ -152,12 +157,13 @@ export default function Home() {
                 onChange={handleFileChange}
                 className="input"
                 id="update-file"
+                key={inputKey}
               />
             </div>
             <button
               onClick={handleUploadClick}
-              className={`upload ${!file && 'disabled'}`}
-              disabled={!file}
+              className={`upload ${!fileName && 'disabled'}`}
+              disabled={!fileName}
             >
               Upload
             </button>
