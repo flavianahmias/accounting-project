@@ -1,6 +1,6 @@
 ## About the project (EN)
 
-This project is part of the challenge of the selection process for the Software Engineer - Exclusive for Women at Hubla company
+This project is an accounting system, which upon receiving a txt file with purchase and sale data by affiliates, the user can dynamically display the data.
 
 ## Used technologies
 
